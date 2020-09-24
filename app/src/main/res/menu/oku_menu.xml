@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_oku_arapca"
+        android:title="Arapça" />
+    <item
+        android:id="@+id/action_oku_turkce"
+        android:title="@string/turkceokunusu" />
+    <item
+        android:id="@+id/action_oku_anlamı"
+        android:title="Anlamı" />
+</menu>

@@ -1,0 +1,81 @@
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.codeforlite.virdlerim">
+
+    <uses-feature android:name="android.hardware.camera" android:required="true"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="18"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    <uses-permission android:name="android.permission.SET_DEBUG_APP" tools:ignore="ProtectedPermissions" />
+
+    <application
+
+        android:name=".VirdlerimApplication"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="AllowBackup">
+        <activity android:name=".SettingsActivity" android:label="@string/title_activity_settings"/>
+        <activity android:name=".ScreenClasses.BaseActivity" />
+        <activity android:name=".ScreenClasses.GunlukVirdlerimScreen" />
+        <activity android:name=".ScreenClasses.Favoriler_Screen" />
+        <activity android:name=".ScreenClasses.AddVird_Secreen" />
+        <activity android:name=".ScreenClasses.Tesbih_Screen" />
+        <activity android:name=".ScreenClasses.Dua_Screen" />
+        <activity android:name=".ScreenClasses.Salavat_Screen" />
+        <activity android:name=".ScreenClasses.Add_AyetGroup_Screen" />
+        <activity android:name=".ScreenClasses.AyetGrubu_Screen" />
+        <activity android:name=".ScreenClasses.Folder_Screen" />
+        <activity android:name=".Oku" />
+        <activity android:name=".ScreenClasses.Esma_Screen" />
+
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.codeforlite.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path" />
+        </provider>
+
+        <receiver android:name=".Receiver_Classes.AlarmReceiver"
+            android:enabled="true"
+            android:exported="false"/>
+
+        <service android:name=".Service_Classes.FirebaseNotification"
+            android:exported="false"
+            tools:ignore="ExtraText">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".Service_Classes.AlarmService"
+            android:exported="false"
+            android:permission="android.permission.BIND_JOB_SERVICE" />
+
+    </application>
+
+</manifest>

@@ -1,0 +1,10 @@
+include ':testing:java:com:google:android:material:testapp:custom'
+include ':testing:java:com:google:android:material:testapp'
+include ':testing:java:com:google:android:material:testapp:theme'
+include ':testing:java:com:google:android:material:testapp:base'
+include ':testing:java:com:google:android:material:testapp:animation'
+include ':example'
+include ':library'
+include ':sample'
+include ':app'
+rootProject.name = "Virdlerim"

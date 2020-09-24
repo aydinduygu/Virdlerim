@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillViewport="true"
+    android:padding="20dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/fragment_txt_turkish"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:ems="10"
+            android:enabled="false"
+            android:fontFamily="@font/expletus_sans"
+            android:gravity="center"
+            android:inputType="textMultiLine"
+            android:text="Türkçe Okunuşu"
+            android:textColor="#1A237E"
+            android:textSize="24sp" />
+    </LinearLayout>
+</ScrollView>

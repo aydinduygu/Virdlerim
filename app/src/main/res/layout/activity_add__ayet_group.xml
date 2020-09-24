@@ -1,0 +1,73 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/folder_view3_3"
+    android:orientation="vertical"
+    android:padding="20dp"
+
+    android:weightSum="5">
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/cantora_one"
+        android:justificationMode="inter_word"
+        android:padding="10dp"
+        android:text="\t\tVird oluşturmak istediğiniz ayetleri seçebilir, Kaydet'e tıklayarak yeni ayet grubu oluşturabilirsiniz"
+        android:textColor="#FFD600"
+        android:textSize="20sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_ayetlist_to_add"
+        android:layout_width="match_parent"
+        android:layout_height="286dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="40dp"
+        android:layout_weight="3"
+        android:background="@drawable/folder_view3_3"
+        android:minHeight="200dp"
+        android:padding="15dp" />
+
+    <Spinner
+        android:id="@+id/spinner_surelistesi"
+
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/folder_view1_1"
+        android:gravity="center" />
+
+    <Spinner
+        android:id="@+id/spinner_ayetsayıları"
+
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/folder_view1_1"
+        android:gravity="center" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button_addayet_tolist"
+            android:layout_width="wrap_content"
+            android:layout_height="58dp"
+            android:layout_weight="1"
+            android:text="Ekle" />
+
+        <Button
+            android:id="@+id/button_save_list"
+            android:layout_width="wrap_content"
+            android:layout_height="58dp"
+            android:layout_weight="1"
+            android:text="Listeyi Kaydet" />
+    </LinearLayout>
+
+</LinearLayout>

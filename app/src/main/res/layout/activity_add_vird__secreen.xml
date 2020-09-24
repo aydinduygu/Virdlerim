@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_add_vird_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/folder_view3_3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="20dp"
+            android:fontFamily="@font/cantora_one"
+            android:text="Vird Ekle"
+            android:textAlignment="center"
+            android:textColor="#FFD600"
+            android:textSize="30sp"
+            app:layout_constraintBottom_toTopOf="@+id/editText_addvird_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.56" />
+
+        <EditText
+
+            android:id="@+id/editText_addvird_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="#FFD600"
+            android:ems="10"
+            android:hint="Başlık"
+            android:inputType="textMultiLine"
+            android:padding="5dp"
+            android:textAlignment="center"
+            android:textColor="@color/primary_text"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/editText_addvird_turkishtext"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        <EditText
+            android:id="@+id/editText_addvird_turkishtext"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/four_corner_radius_gradient"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="Vird Metni"
+            android:inputType="textMultiLine"
+            android:textAlignment="center"
+            android:textColor="@color/primary_text"
+            app:layout_constraintBottom_toTopOf="@+id/editText_addvird_meaning"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_addvird_title" />
+
+        <EditText
+            android:id="@+id/editText_addvird_meaning"
+            android:layout_width="0dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/four_corner_radius_gradient"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="Anlamı"
+            android:inputType="textMultiLine"
+            android:textAlignment="center"
+            android:textColor="@color/primary_text"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_addvird_turkishtext"
+            tools:ignore="RtlCompat" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
+            android:paddingLeft="80dp"
+            android:paddingRight="80dp"
+            app:layout_constraintBottom_toTopOf="@+id/textView_filename"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_addvird_meaning">
+
+            <Button
+                android:id="@+id/button_takephoto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/ic_baseline_camera_alt_100" />
+
+            <Button
+                android:id="@+id/button_accessgallery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/ic_baseline_image_100" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView_filename"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="#00C853"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toTopOf="@+id/button_addvird_kaydet"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+        <Button
+            android:id="@+id/button_addvird_kaydet"
+            android:layout_width="0dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="25dp"
+            android:background="@drawable/folder_view1_1"
+            android:text="Kaydet"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView_filename" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <com.mikhaellopez.circularfillableloaders.CircularFillableLoaders
+        android:id="@+id/fillableprogressbar"
+        android:layout_width="184dp"
+        android:layout_height="190dp"
+        android:layout_marginTop="300dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/hilal"
+        android:visibility="invisible"
+        app:cfl_border="true"
+        app:cfl_border_width="8dp"
+        app:cfl_progress="70"
+        app:cfl_wave_amplitude="0.06"
+        app:cfl_wave_color="@color/primary"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

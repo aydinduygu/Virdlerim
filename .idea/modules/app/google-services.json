@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "534555563619",
+    "firebase_url": "https://virdlerim-5b202.firebaseio.com",
+    "project_id": "virdlerim-5b202",
+    "storage_bucket": "virdlerim-5b202.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:534555563619:android:2cb89b94a7b9d72cabca56",
+        "android_client_info": {
+          "package_name": "com.codeforlite.virdlerim"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "534555563619-qarle2ifneekacqes1ur5ki3ujkd0fna.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.codeforlite.virdlerim",
+            "certificate_hash": "a421b1971c7c087abcfdb5f3e2cf81ca29cbb077"
+          }
+        },
+        {
+          "client_id": "534555563619-og3tqco4ijui810c74be99skgj72j16q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBv_Mj_9HaD48QYp_55XqcYsibmTRTM38M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "534555563619-og3tqco4ijui810c74be99skgj72j16q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

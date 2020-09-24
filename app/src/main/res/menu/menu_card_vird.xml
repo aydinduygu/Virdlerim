@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/action_virdlerime_ekle"
+        android:title="Günlük Vird Listeme Ekle" />
+
+    <item
+        android:id="@+id/action_insertfavourites"
+        android:title="Favorilere Ekle" />
+    <item
+        android:id="@+id/action_sil"
+        android:title="Sil" />
+</menu>
