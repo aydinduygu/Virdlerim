@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.util.Calendar;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -17,23 +19,38 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 import androidx.preference.SwitchPreference;
 
 import com.codeforlite.virdlerim.Receiver_Classes.AlarmReceiver;
+import com.codeforlite.virdlerim.ScreenClasses.AyetGrubu_Screen;
+import com.codeforlite.virdlerim.ScreenClasses.BaseActivity;
+import com.codeforlite.virdlerim.ScreenClasses.Dua_Screen;
+import com.codeforlite.virdlerim.ScreenClasses.Esma_Screen;
+import com.codeforlite.virdlerim.ScreenClasses.Favoriler_Screen;
+import com.codeforlite.virdlerim.ScreenClasses.GunlukVirdlerimScreen;
+import com.codeforlite.virdlerim.ScreenClasses.Salavat_Screen;
+import com.codeforlite.virdlerim.ScreenClasses.Tesbih_Screen;
 import com.codeforlite.virdlerim.Service_Classes.AlarmService;
+import com.google.android.material.navigation.NavigationView;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity{
 
     private ImageView gear1;
     private ImageView gear2;
-
-
+    private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
     private Calendar calendar;
     private static Intent intent;
     private static PendingIntent pendingIntent;
@@ -46,6 +63,102 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_activity);
+
+        toolbar=findViewById(R.id.toolbar2);
+        toolbar.setTitle("Ayarlar");
+        setSupportActionBar(toolbar);
+        drawer=findViewById(R.id.drawer);
+        navigationView=findViewById(R.id.drawer_nav);
+
+        ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawer,toolbar,0,0);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setItemIconTintList(null);
+
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                switch (item.getItemId()){
+
+                    case R.id.action_gunlukvirdlerim:{
+
+                        Intent intent=new Intent(getApplicationContext(), GunlukVirdlerimScreen.class);
+                        startActivity(intent);
+                        drawer.closeDrawer(GravityCompat.START);
+
+                        return true;
+
+                    }
+
+                    case R.id.action_drawer_favoriler:{
+
+                        Intent intent=new Intent(getApplicationContext(), Favoriler_Screen.class);
+                        startActivity(intent);
+                        drawer.closeDrawer(GravityCompat.START);
+
+                        return true;
+                    }
+                    case R.id.action_drawer_ayetgrupları:{
+
+                        Intent intent=new Intent(getApplicationContext(), AyetGrubu_Screen.class);
+                        startActivity(intent);
+                        drawer.closeDrawer(GravityCompat.START);
+
+                        return true;
+                    }
+
+                    case R.id.action_drawer_salavat:{
+
+                        Intent intent=new Intent(getApplicationContext(), Salavat_Screen.class);
+                        startActivity(intent);
+                        drawer.closeDrawer(GravityCompat.START);
+
+                        return true;
+                    }
+
+                    case R.id.action_drawer_tesbih:{
+
+                        Intent intent=new Intent(getApplicationContext(), Tesbih_Screen.class);
+                        startActivity(intent);
+                        drawer.closeDrawer(GravityCompat.START);
+
+                        return true;
+                    }
+
+                    case R.id.action_drawer_dua:{
+
+                        Intent intent=new Intent(getApplicationContext(), Dua_Screen.class);
+                        startActivity(intent);
+                        drawer.closeDrawer(GravityCompat.START);
+
+                        return true;
+                    }
+                    case R.id.action_drawer_esma:{
+
+                        Intent intent=new Intent(getApplicationContext(), Esma_Screen.class);
+                        startActivity(intent);
+                        drawer.closeDrawer(GravityCompat.START);
+
+                        return true;
+                    }
+
+                    case R.id.action_close:{
+
+                        finishAffinity();
+                        System.exit(0);
+                        return true;
+                    }
+
+                    case R.id.action_settings:{
+
+                        startActivity(new Intent(getApplicationContext(), SettingsActivity.class));
+
+                    }
+                }
+                return false;
+            }
+        });
 
         //en son ayarlanmış alarm bilgileri
         SharedPreferences sharedPreferences=getSharedPreferences("notification_time",MODE_PRIVATE);
@@ -78,6 +191,36 @@ public class SettingsActivity extends AppCompatActivity {
         gear1.startAnimation(rotate);
         gear2.startAnimation(rotate2);
 
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+
+        getMenuInflater().inflate(R.menu.toolbar_menu_without_search,menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+
+            case R.id.action_toolbar_gunlukvird:{
+
+                startActivity(new Intent(this,GunlukVirdlerimScreen.class));
+                break;
+
+            }
+            case R.id.action_toolbar_favoriler:{
+
+                startActivity(new Intent(this,Favoriler_Screen.class));
+                break;
+            }
+
+
+        }
+
+        return true;
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat {

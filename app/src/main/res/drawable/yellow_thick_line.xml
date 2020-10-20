@@ -10,7 +10,7 @@
                 <shape android:shape="rectangle" >
                     <stroke
                         android:width="0.5dp"
-                        android:color="#FFD600" />
+                        android:color="@color/icons" />
 
                     <solid android:color="#00FFFFFF" />
 

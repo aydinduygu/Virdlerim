@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         CircularFillableLoaders openingLogo=findViewById(R.id.openingprogressbar);
         TextView openingTextView=findViewById(R.id.txt_opening);
 

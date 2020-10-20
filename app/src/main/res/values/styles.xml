@@ -10,6 +10,14 @@
         <item name="android:windowActionBar">false</item>
         <item name="android:navigationBarColor">@color/primary</item>
 
+    </style>
+
+    <!-- ToolBar -->
+    <style name="ToolBarStyle" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">@color/logo</item>
+        <item name="fontFamily">@font/trartistik</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
 
     </style>
 
@@ -17,7 +25,15 @@
     <style name="menutext" parent="@style/Base.TextAppearance.AppCompat.Title">
         <item name="android:textSize">20sp</item>
         <item name="android:textColor">#F0B13D</item>
-        <item name="fontFamily">@font/expletus_sans</item>
+        <item name="fontFamily">@font/noto_serif</item>
+        <item name="android:drawablePadding">20dp</item>
+        <item name="android:thumbTextPadding">10dp</item>
+    </style>
+
+    <style name="toolbartitle" parent="@style/Base.TextAppearance.AppCompat.Title">
+        <item name="android:textSize">23sp</item>
+        <item name="android:textColor">@color/logo</item>
+        <item name="fontFamily">@font/trartistik</item>
         <item name="android:drawablePadding">20dp</item>
         <item name="android:thumbTextPadding">10dp</item>
     </style>
@@ -32,7 +48,7 @@
     <style name="Widget.BottomNavigationView"
         parent="Widget.Design.BottomNavigationView">
         <item name="fontFamily">@font/expletus_sans</item>
-        <item name="android:textColor">@color/accent</item>
+        <item name="android:textColor">@color/logo</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">15sp</item>
     </style>

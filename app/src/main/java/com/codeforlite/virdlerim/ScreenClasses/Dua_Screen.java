@@ -29,7 +29,8 @@ public class Dua_Screen extends BaseActivity implements SearchView.OnQueryTextLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        toolbar_title.setText("DUALAR");
+        toolbar_title.setVisibility(View.GONE);
+        toolbar.setTitle("Dualar");
 
         duaCardList=new ArrayList<>();
         recyclerView.setHasFixedSize(true);

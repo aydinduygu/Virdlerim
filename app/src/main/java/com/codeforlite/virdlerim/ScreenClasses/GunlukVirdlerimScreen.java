@@ -27,8 +27,10 @@ public class GunlukVirdlerimScreen extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        toolbar_title.setText("Günlük Virdlerim");
-        toolbar.setTitleMarginStart(170);
+        toolbar_title.setVisibility(View.GONE);
+        toolbar.setTitle("Günlük Virdlerim");
+
+
 
         gunlukVirdList=new ArrayList<>();
 

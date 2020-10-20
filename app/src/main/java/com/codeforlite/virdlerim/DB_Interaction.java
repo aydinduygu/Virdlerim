@@ -679,7 +679,6 @@ public class DB_Interaction {
             getMyDatabase().close();
             return false;
 
-
         }
 
 

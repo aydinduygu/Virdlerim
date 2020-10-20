@@ -1,30 +1,42 @@
 package com.codeforlite.virdlerim.RV_Adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.icu.util.Calendar;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Build;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codeforlite.virdlerim.DB_Interaction;
@@ -39,11 +51,18 @@ import com.codeforlite.virdlerim.Vird_Classes.Vird;
 import com.codeforlite.virdlerim.VirdlerimApplication;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.shape.CornerFamily;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.io.Serializable;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -87,7 +106,6 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
 
             else{
                 filteredList.clear();
-                comingList .clear();
                 for(int i=0;i<comingList.size();i++){
 
                     String c=constraint.toString().toLowerCase();
@@ -141,27 +159,45 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
 
         holder.setIsRecyclable(false);
 
-       final Vird  comingVird = comingList.get(position);
+        final Vird  comingVird = comingList.get(position);
+
+        //fav ve günlük vird buttonlarının durumlarını al ona göre ayarla
+        SharedPreferences buttonSP=context.getSharedPreferences("likeButtons",Context.MODE_PRIVATE);
+        SharedPreferences.Editor buttonSPEditor=buttonSP.edit();
+        boolean isFav=buttonSP.getBoolean("fav"+comingVird.getId(),false);
+        if (isFav){holder.likeButton.setLiked(true);}
+        else {holder.likeButton.setLiked(false);}
+        boolean isGunlukVird=buttonSP.getBoolean("gunluk"+comingVird.getId(),false);
+        if (isGunlukVird){holder.gunlukVirdButton.setLiked(true);}
+        else {holder.gunlukVirdButton.setLiked(false);}
 
 
-       if (comingVird instanceof AyetGrubu){
+        if (comingVird instanceof AyetGrubu){
 
            AyetGrubu ayetGrubu=(AyetGrubu)comingVird;
            comingVird.setMealormeaning(ayetGrubu.getMeal());
-       }
+        }
 
         if (activityName.equals("GunlukVirdlerimScreen")){
 
+            //set visibility for numbers layout and devider
+            holder.numbersLayout.setVisibility(View.VISIBLE);
+            holder.numbersLayoutDivider.setVisibility(View.VISIBLE);
+
             holder.txt_hedefSayi.setText(""+comingVird.getGunlukHedef());
 
-            holder.numbersLayout.setVisibility(View.VISIBLE);
-
+            //eğer gün değişmişse günlük virdlerin kalan sayı değerlerini default değerlerine döndür
             SharedPreferences gunlukVirdKayit=VirdlerimApplication.getAppContext().getSharedPreferences("gunlukvirdler",Context.MODE_PRIVATE);
             SharedPreferences.Editor editor=gunlukVirdKayit.edit();
             Calendar calendar=Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
             int day=calendar.get(Calendar.DAY_OF_YEAR);
             int savedDay=gunlukVirdKayit.getInt("day",day+1);
+
+            //save actual day on device
+            editor.putInt("day",day);
+            editor.commit();
+
 
             if (day!=savedDay){
 
@@ -224,18 +260,13 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
             holder.editText_meal.setText(comingVird.getMealormeaning());
         }
 
-        if (holder.editText_arabic.getText().length()>70){
-            holder.editText_arabic.getLayoutParams().height= (int) (130 * (context.getResources().getDisplayMetrics().density));}
-        else{ holder.editText_arabic.getLayoutParams().height= ViewGroup.LayoutParams.WRAP_CONTENT;}
-
-        if (holder.editText_turkish.getText().length()>70){
-            holder.editText_turkish.getLayoutParams().height= (int) (130 * (context.getResources().getDisplayMetrics().density));}
-        else{ holder.editText_turkish.getLayoutParams().height= ViewGroup.LayoutParams.WRAP_CONTENT;}
+        holder.editText_arabic.getLayoutParams().height= ViewGroup.LayoutParams.WRAP_CONTENT;
 
         holder.imageView.setImageBitmap(imageOfVird);
         holder.imageView.getLayoutParams().height= 700;
         holder.imageView.getLayoutParams().width=MATCH_PARENT;
 
+        //resim varsa köşelere 30 dp  radius vermek için:
         float radius = context.getResources().getDimension(R.dimen.default_corner_radius);
         holder.imageView.setShapeAppearanceModel(holder.imageView.getShapeAppearanceModel()
                 .toBuilder()
@@ -243,39 +274,8 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
                 .build());
 
 
-        View.OnClickListener enhanceTextLayouts=new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                if(!holder.isClicked){
-                    holder.isClicked=true;
-                    holder.editText_meal.setVisibility(View.VISIBLE);
-                    TransitionManager.beginDelayedTransition(holder.ayetCard, transition);
-
-                    holder.editText_meal.getLayoutParams().height=ViewGroup.LayoutParams.WRAP_CONTENT;
-                    holder.editText_arabic.getLayoutParams().height= ViewGroup.LayoutParams.WRAP_CONTENT;
-                    holder.editText_turkish.getLayoutParams().height= ViewGroup.LayoutParams.WRAP_CONTENT;
-                    //holder.imageView.getLayoutParams().height=WRAP_CONTENT;
-                }
-                else{
-                    holder.isClicked=false;
-                   // TransitionManager.beginDelayedTransition(holder.ayetCard, transition);
-                    if (holder.editText_arabic.getText().length()>70){
-                    holder.editText_arabic.getLayoutParams().height= (int) (130 * (context.getResources().getDisplayMetrics().density));}
-                    else{ holder.editText_arabic.getLayoutParams().height= ViewGroup.LayoutParams.WRAP_CONTENT;}
-
-                    if (holder.editText_turkish.getText().length()>70){
-                        holder.editText_turkish.getLayoutParams().height= (int) (130 * (context.getResources().getDisplayMetrics().density));}
-                    else{ holder.editText_turkish.getLayoutParams().height= ViewGroup.LayoutParams.WRAP_CONTENT;}
-
-                    holder.editText_meal.getLayoutParams().height=0;
-                    holder.editText_meal.setVisibility(View.GONE);
-                    holder.imageView.getLayoutParams().height=700;
-                }
-            }
-        };
-
-
+        //oku butonuna tıklanıldığında yapılacaklar
         holder.button_oku.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -303,122 +303,162 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
             }
         });
 
-        if (activityName.equals("GunlukVirdlerimScreen")){holder.img_menu.setVisibility(View.VISIBLE);}
-
-        holder.img_menu.setOnClickListener(new View.OnClickListener() {
+        //silme butonuna tıklanıldığında yapılacaklar
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if ((!activityName.equals("GunlukVirdlerimScreen"))&&(!activityName.equals("Favoriler_Screen"))) {
-                    new PopupMenu_Card(context,holder.img_menu).setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
 
+              Snackbar snackbar=  Snackbar.make(holder.cardOuterLayout,"Bu virdi silmek istiyor musunuz?", BaseTransientBottomBar.LENGTH_LONG).setAction("Evet", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new DB_Interaction(context, VirdlerimApplication.getDbHelper()).removeData(comingVird);
+                        comingList.remove(comingVird);
+                        notifyDataSetChanged();
 
-                            switch (item.getItemId()){
+                        Snackbar snackbar2=Snackbar.make(v,"Virdiniz silindi.",Snackbar.LENGTH_LONG);
+                        snackbar2.setTextColor(context.getResources().getColor(R.color.accent));
 
-                                case R.id.action_sil:{
-                                    new DB_Interaction(context, VirdlerimApplication.getDbHelper()).removeData(comingVird);
-                                    comingList.remove(comingVird);
-                                    notifyDataSetChanged();
-                                    return true;
-
-                                }
-                                case R.id.action_virdlerime_ekle:{
-
-                                    List<Vird> gunlukVirdListesi=new DB_Interaction(context,VirdlerimApplication.getDbHelper()).fetchGunlukVirdlerim();
-                                    boolean exists=false;
-
-                                    for (Vird vird:gunlukVirdListesi){
-
-                                        if (vird.getId().equals(comingVird.getId())){
-                                            exists=true;
-                                            break;
-                                        }
-                                    }
-
-                                    if (exists){
-                                        Toast.makeText(context,"Bu vird zaten günlük virdleriniz arasında",Toast.LENGTH_LONG).show();
-                                    }
-                                    else {
-                                        new Popup_SayiBelirle(context,comingVird,true);
-                                    }
-
-
-                                    return true;
-
-                                }
-
-                                case R.id.action_insertfavourites:{
-
-                                    List<Vird> favoriler=new DB_Interaction(context,VirdlerimApplication.getDbHelper()).fetchFavourites();
-                                    boolean exists=false;
-
-                                    for (Vird vird:favoriler){
-
-                                        if (vird.getId().equals(comingVird.getId())){
-                                            exists=true;
-                                            break;
-                                        }
-                                    }
-
-                                    if (exists){
-                                        Toast.makeText(context,"Bu vird zaten favorileriniz arasında",Toast.LENGTH_LONG).show();
-                                    }
-                                    else {
-
-                                        if ( new DB_Interaction(context,VirdlerimApplication.getDbHelper()).insertToFavourites(comingVird)) {
-                                            Toast.makeText(context,"Favorilerinize Eklendi",Toast.LENGTH_LONG).show();
-                                        }
-                                        else {
-                                            Toast.makeText(context,"Hata! Favorilere eklenemedi!",Toast.LENGTH_LONG).show();
-                                        }
-
-                                    }
-
-                                    return true;
-                                }
-
-                                default:return false;
-                            }
-
-                        }
-                    });
-                }
-
-                else {
-
-                    if (activityName.equals("GunlukVirdlerimScreen")) {
-                        new Popup_Card_GunlukVird(context,holder.img_menu).setOnMenuItemClickListener(new android.widget.PopupMenu.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem item) {
-                                new DB_Interaction(context,VirdlerimApplication.getDbHelper()).removeFromGunlukVird(comingVird);
-                                comingList.remove(comingVird);
-                                notifyDataSetChanged();
-                                return true;
-                            }
-                        });
                     }
-                    else if (activityName.equals("Favoriler_Screen")){
+                });
 
-                       Popup_Card_GunlukVird popup= new Popup_Card_GunlukVird(context,holder.img_menu);
+              snackbar.setTextColor(context.getResources().getColor(R.color.accent));
+              View view=snackbar.getView();
+              view.setPadding(0,10,0,10);
+              snackbar.show();
 
-                       popup.getMenu().getItem(0).setTitle("Favorilerden Çıkar");
 
-                       popup.setOnMenuItemClickListener(new android.widget.PopupMenu.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem item) {
-                                new DB_Interaction(context,VirdlerimApplication.getDbHelper()).removeFromFavourites(comingVird);
-                                comingList.remove(comingVird);
-                                notifyDataSetChanged();
-                                return true;
-                            }
-                        });
+
+            }
+
+        });
+
+        //günlük virdlere ekleme butonuna tıklanıldığında yapılacaklar
+        holder.gunlukVirdButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+
+                Popup_SayiBelirle sayiBelirle=new Popup_SayiBelirle(context,comingVird,true);
+
+
+                sayiBelirle.setTouchInterceptor(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        if (motionEvent.getX() < 0 || motionEvent.getX() > view.getWidth()) return true;
+                        if (motionEvent.getY() < 0 || motionEvent.getY() > view.getHeight()) return true;
+
+                        return false;
                     }
+                });
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+
+                new DB_Interaction(VirdlerimApplication.getAppContext(),VirdlerimApplication.getDbHelper()).removeFromGunlukVird(comingVird);
+                buttonSPEditor.putBoolean("gunluk"+comingVird.getId(),false);
+                buttonSPEditor.commit();
+                if (activityName.equals("GunlukVirdlerimScreen")){
+
+                    comingList.remove(comingVird);
+                    notifyDataSetChanged();
                 }
+                Toast.makeText(context,"Günlük Virdlerinizden Çıkartıldı",Toast.LENGTH_LONG).show();
+
+
             }
         });
 
+        //favoriye ekle-çıkar butonuna tıklanıldığında yapılacaklar
+        holder.likeButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+
+
+                List<Vird> favoriler=new DB_Interaction(context,VirdlerimApplication.getDbHelper()).fetchFavourites();
+
+                    if ( new DB_Interaction(context,VirdlerimApplication.getDbHelper()).insertToFavourites(comingVird)) {
+                        Toast.makeText(context,"Favorilerinize Eklendi",Toast.LENGTH_LONG).show();
+                        buttonSPEditor.putBoolean("fav"+comingVird.getId(),true);
+                        buttonSPEditor.commit();
+                    }
+                    else {
+                        Toast.makeText(context,"Hata! Favorilere eklenemedi!",Toast.LENGTH_LONG).show();
+                    }
+
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+
+                buttonSPEditor.putBoolean("fav"+comingVird.getId(),false);
+                buttonSPEditor.commit();
+                Toast.makeText(context,"Favorilerinizden Çıkartıldı!",Toast.LENGTH_LONG).show();
+                new DB_Interaction(context,VirdlerimApplication.getDbHelper()).removeFromFavourites(comingVird);
+
+                if (activityName.equals("Favoriler_Screen")){
+                    comingList.remove(comingVird);
+                    notifyDataSetChanged();}
+
+            }
+        });
+
+
+        Animation arrowAlphaAnim=new AlphaAnimation(0.0f,1.0f);
+        arrowAlphaAnim.setFillAfter(true);
+        arrowAlphaAnim.setDuration(1000);
+        arrowAlphaAnim.setRepeatCount(Animation.INFINITE);
+        arrowAlphaAnim.setRepeatMode(Animation.REVERSE);
+        arrowAlphaAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                holder.arrow1.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+           // holder.arrow1.startAnimation(arrowAlphaAnim);
+
+        //tıklanıldığında expand eylemi için:
+        View.OnClickListener enhanceTextLayouts=new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(!holder.isClicked){
+
+                    holder.isClicked=true;
+                    holder.editText_meal.setVisibility(View.VISIBLE);
+                    TransitionManager.beginDelayedTransition(holder.ayetCard, transition);
+                    holder.editText_turkish.setMaxLines(1000);
+                    holder.editText_arabic.setMaxLines(1000);
+
+                    holder.editText_meal.getLayoutParams().height=ViewGroup.LayoutParams.WRAP_CONTENT;
+                    // holder.editText_arabic.getLayoutParams().height= ViewGroup.LayoutParams.WRAP_CONTENT;
+                    holder.editText_turkish.getLayoutParams().height= ViewGroup.LayoutParams.WRAP_CONTENT;
+                    //holder.imageView.getLayoutParams().height=WRAP_CONTENT;
+                }
+                else{
+
+                    holder.editText_arabic.setMaxLines(3);
+                    holder.editText_turkish.setMaxLines(3);
+                    holder.isClicked=false;
+                    holder.editText_meal.getLayoutParams().height=0;
+                    holder.editText_meal.setVisibility(View.GONE);
+                    holder.imageView.getLayoutParams().height=700;
+                }
+            }
+        };
         holder.editText_title.setOnClickListener(enhanceTextLayouts);
         holder.editText_arabic.setOnClickListener(enhanceTextLayouts);
         holder.ayetCard.setOnClickListener(enhanceTextLayouts);
@@ -432,6 +472,11 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
     }
 
     private void hideViews_IfDataNotExist (Vird comingVird,Screens_ViewHolder holder){
+
+        //title divider visibility durumu ayarla
+        if (comingVird.getTitle()==null||comingVird.getTitle().isEmpty()){
+            holder.titleDivider.setVisibility(View.GONE);
+        }
 
         if (comingVird.getTitle()==null||comingVird.getTitle().equals("")){
             holder.editText_title.setVisibility(View.GONE);
@@ -513,6 +558,13 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
         private LinearLayout numbersLayout;
         private TextView txt_hedefSayi;
         private TextView txt_kalanSayi;
+        private LikeButton likeButton;
+        private Button deleteButton;
+        private LikeButton gunlukVirdButton;
+        private View titleDivider;
+        private LinearLayout arrow1;
+        private View numbersLayoutDivider;
+
 
 
 
@@ -525,7 +577,7 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
             editText_turkish=itemView.findViewById(R.id.txt_ayetler_turkish);
             editText_meal=itemView.findViewById(R.id.txt_ayetler_meal);
             button_oku=itemView.findViewById(R.id.button_ayetler_oku);
-            img_menu=itemView.findViewById(R.id.img_menubutton_ayetler);
+
             ayetCard=itemView.findViewById(R.id.card_ayetler);
             isClicked=false;
             popupWindow_sayibelirle=new PopupWindow(LayoutInflater.from(context).inflate(R.layout.popup_sayi_belirle,null,false),600,700,true);
@@ -535,6 +587,12 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
             txt_kalanSayi=itemView.findViewById(R.id.txt_gunluk_kalan);
             numbersLayout=itemView.findViewById(R.id.cv_layout_numbers);
             imageView_isDone=itemView.findViewById(R.id.imageView_isdone);
+            likeButton=itemView.findViewById(R.id.likebutton);
+            gunlukVirdButton=itemView.findViewById(R.id.gunlukvirdbutton);
+            deleteButton=itemView.findViewById(R.id.deletebutton);
+            titleDivider=itemView.findViewById(R.id.dividertitle);
+            arrow1=itemView.findViewById(R.id.arrow_1);
+            numbersLayoutDivider=itemView.findViewById(R.id.dividernumberslayout);
         }
     }
 }

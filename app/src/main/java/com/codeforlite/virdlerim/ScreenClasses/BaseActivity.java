@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,8 +35,8 @@ public class BaseActivity extends AppCompatActivity implements androidx.appcompa
     public FloatingActionButton button_addVird;
     public TextView txt_rv_info;
     public TextView toolbar_title;
-    public Activity activity;
     androidx.appcompat.widget.SearchView searchView;
+    public ConstraintLayout baseLayout;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -43,24 +44,30 @@ public class BaseActivity extends AppCompatActivity implements androidx.appcompa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
 
+        baseLayout=findViewById(R.id.base_screen_layout);
+
 
         button_addVird=findViewById(R.id.button_add_vird);
         recyclerView=findViewById(R.id.recyleView_virdScreen);
         toolbar=findViewById(R.id.toolbar);
+
         drawer=findViewById(R.id.drawer);
         navigationView=findViewById(R.id.drawer_nav);
         txt_rv_info=findViewById(R.id.txt_rv_information);
         toolbar_title=findViewById(R.id.txt_toolbar_title);
-
+        toolbar_title.setVisibility(View.GONE);
 
         //toolbarı özelleştir
         toolbar.setPadding(15,15,15,15);
-        toolbar.setTitle("");
+        toolbar.setTitle("Virdlerim");
         setSupportActionBar(toolbar);
 
         ActionBarDrawerToggle toggle=new ActionBarDrawerToggle(this,drawer,toolbar,0,0);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        //nav view de ikonların orijinal renkleri ile görülmesi için
+        navigationView.setItemIconTintList(null);
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -77,6 +84,59 @@ public class BaseActivity extends AppCompatActivity implements androidx.appcompa
                         return true;
 
                     }
+
+                    case R.id.action_drawer_favoriler:{
+
+                        Intent intent=new Intent(getApplicationContext(),Favoriler_Screen.class);
+                        startActivity(intent);
+                        drawer.closeDrawer(GravityCompat.START);
+
+                        return true;
+                    }
+                    case R.id.action_drawer_ayetgrupları:{
+
+                        Intent intent=new Intent(getApplicationContext(),AyetGrubu_Screen.class);
+                        startActivity(intent);
+                        drawer.closeDrawer(GravityCompat.START);
+
+                        return true;
+                    }
+
+                    case R.id.action_drawer_salavat:{
+
+                        Intent intent=new Intent(getApplicationContext(),Salavat_Screen.class);
+                        startActivity(intent);
+                        drawer.closeDrawer(GravityCompat.START);
+
+                        return true;
+                    }
+
+                    case R.id.action_drawer_tesbih:{
+
+                        Intent intent=new Intent(getApplicationContext(),Tesbih_Screen.class);
+                        startActivity(intent);
+                        drawer.closeDrawer(GravityCompat.START);
+
+                        return true;
+                    }
+
+                    case R.id.action_drawer_dua:{
+
+                        Intent intent=new Intent(getApplicationContext(),Dua_Screen.class);
+                        startActivity(intent);
+                        drawer.closeDrawer(GravityCompat.START);
+
+                        return true;
+                    }
+                    case R.id.action_drawer_esma:{
+
+                        Intent intent=new Intent(getApplicationContext(),Esma_Screen.class);
+                        startActivity(intent);
+                        drawer.closeDrawer(GravityCompat.START);
+
+                        return true;
+                    }
+
                     case R.id.action_close:{
 
                         finishAffinity();
@@ -100,29 +160,50 @@ public class BaseActivity extends AppCompatActivity implements androidx.appcompa
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.search_menu,menu);
-        MenuItem item=menu.findItem(R.id.search);
-        searchView= (androidx.appcompat.widget.SearchView) new CustomSearchView(getBaseContext(),item).getActionView();
-        searchView.setOnQueryTextListener(this);
-        searchView.setOnSearchClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toolbar_title.setVisibility(View.INVISIBLE);
-            }
-        });
+        String activityName=this.getClass().getSimpleName();
 
-        searchView.setOnCloseListener(new androidx.appcompat.widget.SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
 
-                toolbar_title.setVisibility(View.VISIBLE);
-                return false;
-            }
-        });
-        return super.onCreateOptionsMenu(menu);
+        if (activityName.equals("Folder_Screen")||activityName.equals("SettingsActivity")){
+            getMenuInflater().inflate(R.menu.toolbar_menu_without_search,menu);
+
+
+        }
+        else{
+
+            getMenuInflater().inflate(R.menu.search_menu,menu);
+            MenuItem item=menu.findItem(R.id.search);
+            searchView= (androidx.appcompat.widget.SearchView) new CustomSearchView(getBaseContext(),item).getActionView();
+            searchView.setOnQueryTextListener(this);
+        }
+
+        //MenuItem item=menu.findItem(R.id.search);
+       // searchView= (androidx.appcompat.widget.SearchView) new CustomSearchView(getBaseContext(),item).getActionView();
+        //searchView.setOnQueryTextListener(this);
+
+        return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
 
+            case R.id.action_toolbar_gunlukvird:{
+
+                startActivity(new Intent(this,GunlukVirdlerimScreen.class));
+                break;
+
+            }
+            case R.id.action_toolbar_favoriler:{
+
+                startActivity(new Intent(this,Favoriler_Screen.class));
+                break;
+            }
+
+
+        }
+
+        return true;
+    }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
@@ -131,6 +212,7 @@ public class BaseActivity extends AppCompatActivity implements androidx.appcompa
 
     @Override
     public boolean onQueryTextChange(String newText) {
+
 
         return false;
     }
@@ -157,6 +239,7 @@ public class BaseActivity extends AppCompatActivity implements androidx.appcompa
             return item.getActionView();
         }
 
+
     }
 
     @Override
@@ -164,6 +247,9 @@ public class BaseActivity extends AppCompatActivity implements androidx.appcompa
         //super.onBackPressed();
         if (drawer.isOpen()){
             drawer.close();
+        }
+        else {
+            super.onBackPressed();
         }
 
     }

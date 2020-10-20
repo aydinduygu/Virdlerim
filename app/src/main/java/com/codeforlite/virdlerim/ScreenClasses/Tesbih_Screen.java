@@ -35,10 +35,12 @@ public class Tesbih_Screen extends BaseActivity implements SearchView.OnQueryTex
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        toolbar_title.setText("Tesbihler");
+        toolbar_title.setVisibility(View.GONE);
+        toolbar.setTitle("Tesbihler");
 
         tesbihCardList=new ArrayList<>();
         recyclerView.setHasFixedSize(true);
+
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL));
 
         DB_Interaction db_interaction=new DB_Interaction(getApplicationContext(), VirdlerimApplication.getDbHelper());
@@ -67,6 +69,8 @@ public class Tesbih_Screen extends BaseActivity implements SearchView.OnQueryTex
 
 
     }
+
+
 
     @Override
     public boolean onQueryTextSubmit(String query) {

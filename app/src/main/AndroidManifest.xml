@@ -22,21 +22,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup">
-        <activity android:name=".SettingsActivity" android:label="@string/title_activity_settings"/>
-        <activity android:name=".ScreenClasses.BaseActivity" />
-        <activity android:name=".ScreenClasses.GunlukVirdlerimScreen" />
-        <activity android:name=".ScreenClasses.Favoriler_Screen" />
-        <activity android:name=".ScreenClasses.AddVird_Secreen" />
-        <activity android:name=".ScreenClasses.Tesbih_Screen" />
-        <activity android:name=".ScreenClasses.Dua_Screen" />
-        <activity android:name=".ScreenClasses.Salavat_Screen" />
-        <activity android:name=".ScreenClasses.Add_AyetGroup_Screen" />
-        <activity android:name=".ScreenClasses.AyetGrubu_Screen" />
-        <activity android:name=".ScreenClasses.Folder_Screen" />
-        <activity android:name=".Oku" />
-        <activity android:name=".ScreenClasses.Esma_Screen" />
+        <activity android:name=".SettingsActivity" android:label="@string/title_activity_settings" android:screenOrientation="portrait"/>
+        <activity android:name=".ScreenClasses.BaseActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ScreenClasses.GunlukVirdlerimScreen" android:screenOrientation="portrait"/>
+        <activity android:name=".ScreenClasses.Favoriler_Screen" android:screenOrientation="portrait"/>
+        <activity android:name=".ScreenClasses.AddVird_Secreen" android:screenOrientation="portrait" />
+        <activity android:name=".ScreenClasses.Tesbih_Screen" android:screenOrientation="portrait"/>
+        <activity android:name=".ScreenClasses.Dua_Screen" android:screenOrientation="portrait"/>
+        <activity android:name=".ScreenClasses.Salavat_Screen" android:screenOrientation="portrait"/>
+        <activity android:name=".ScreenClasses.Add_AyetGroup_Screen" android:screenOrientation="portrait"/>
+        <activity android:name=".ScreenClasses.AyetGrubu_Screen" android:screenOrientation="portrait"/>
+        <activity android:name=".ScreenClasses.Folder_Screen" android:screenOrientation="portrait"/>
+        <activity android:name=".Oku" android:screenOrientation="portrait"/>
+        <activity android:name=".ScreenClasses.Esma_Screen" android:screenOrientation="portrait"/>
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

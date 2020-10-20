@@ -28,7 +28,8 @@ public class Favoriler_Screen extends BaseActivity implements SearchView.OnQuery
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        toolbar_title.setText("Favoriler");
+        toolbar_title.setVisibility(View.GONE);
+        toolbar.setTitle("Favoriler");
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL));

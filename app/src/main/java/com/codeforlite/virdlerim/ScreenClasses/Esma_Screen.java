@@ -35,7 +35,8 @@ public class Esma_Screen extends BaseActivity implements SearchView.OnQueryTextL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        toolbar_title.setText("Esma-ül Hüsna");
+        toolbar_title.setVisibility(View.GONE);
+        toolbar.setTitle("Esmaül Hüsna");
 
         esmaListesi= (ArrayList<Vird>) new DB_Interaction(getApplicationContext(), VirdlerimApplication.getDbHelper()).fetch_All("esma");
         adapter=new EsmaScreen_RVAdapter(this,esmaListesi);

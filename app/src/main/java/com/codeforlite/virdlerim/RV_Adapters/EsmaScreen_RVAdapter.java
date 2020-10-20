@@ -1,6 +1,7 @@
 package com.codeforlite.virdlerim.RV_Adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
@@ -8,6 +9,7 @@ import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -33,6 +35,8 @@ import com.codeforlite.virdlerim.Popup_Classes.Popup_SayiBelirle;
 import com.codeforlite.virdlerim.R;
 import com.codeforlite.virdlerim.Vird_Classes.Vird;
 import com.codeforlite.virdlerim.VirdlerimApplication;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -112,6 +116,18 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
     public void onBindViewHolder(@NonNull final CardViewObjectsHolder holder, int position) {
 
         final Vird actualVird= esmaList.get(position);
+
+        //fav ve günlük vird buttonlarının durumlarını al ona göre ayarla
+        SharedPreferences buttonSP=context.getSharedPreferences("likeButtons",Context.MODE_PRIVATE);
+        SharedPreferences.Editor buttonSPEditor=buttonSP.edit();
+        boolean isFav=buttonSP.getBoolean("fav"+actualVird.getId(),false);
+        if (isFav){holder.likeButton.setLiked(true);}
+        else {holder.likeButton.setLiked(false);}
+        boolean isGunlukVird=buttonSP.getBoolean("gunluk"+actualVird.getId(),false);
+        if (isGunlukVird){holder.gunlukVirdButton.setLiked(true);}
+        else {holder.gunlukVirdButton.setLiked(false);}
+
+
         Bitmap imageOfVird= null;
         try {
             imageOfVird = BitmapFactory.decodeByteArray(actualVird.getImage_inbyte(),0,actualVird.getImage_inbyte().length);
@@ -151,6 +167,8 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
         }
 
 
+
+
         holder.oku_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,87 +183,76 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
                 else{new Popup_DevamSorusu(context,kalansayi,actualVird);}
             }
         });
-
-        //popup menu
-        holder.menu_button.setOnClickListener(new View.OnClickListener() {
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new DB_Interaction(context, VirdlerimApplication.getDbHelper()).removeData(actualVird);
+                esmaList.remove(actualVird);
+                notifyDataSetChanged();
 
-                new PopupMenu_Card(context,holder.menu_button).setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            }
+        });
+
+        holder.gunlukVirdButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+
+               Popup_SayiBelirle sayiBelirle= new Popup_SayiBelirle(context,actualVird,true);
+
+                sayiBelirle.setTouchInterceptor(new View.OnTouchListener() {
                     @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-
-                        switch (item.getItemId()){
-
-                            case R.id.action_sil:{
-
-                                esmaList.remove(actualVird);
-                                notifyDataSetChanged();
-                                break;
-                            }
-
-                            case R.id.action_virdlerime_ekle:{
-
-                                List<Vird> gunlukVirdListesi=new DB_Interaction(context, VirdlerimApplication.getDbHelper()).fetchGunlukVirdlerim();
-                                boolean exists=false;
-
-                                for (Vird vird:gunlukVirdListesi){
-
-                                    if (vird.getId().equals(actualVird.getId())){
-                                        exists=true;
-                                        break;
-                                    }
-                                }
-
-                                if (exists){
-
-                                    Toast.makeText(context,"Bu vird zaten günlük virdleriniz arasında",Toast.LENGTH_LONG).show();
-
-                                }
-
-                                else {
-                                    new Popup_SayiBelirle(context,actualVird,true);
-                                    return true;
-                                }
-                            }
-
-                            case R.id.action_insertfavourites:{
-
-                                List<Vird> favoriler=new DB_Interaction(context,VirdlerimApplication.getDbHelper()).fetchFavourites();
-                                boolean exists=false;
-
-                                for (Vird vird:favoriler){
-
-                                    if (vird.getId().equals(actualVird.getId())){
-                                        exists=true;
-                                        break;
-                                    }
-                                }
-
-                                if (exists){
-                                    Toast.makeText(context,"Bu vird zaten favorileriniz arasında",Toast.LENGTH_LONG).show();
-                                }
-                                else {
-
-                                    if ( new DB_Interaction(context,VirdlerimApplication.getDbHelper()).insertToFavourites(actualVird)) {
-                                        Toast.makeText(context,"Favorilerinize Eklendi",Toast.LENGTH_LONG).show();
-                                    }
-                                    else {
-                                        Toast.makeText(context,"Hata! Favorilere eklenemedi!",Toast.LENGTH_LONG).show();
-                                    }
-
-                                }
-
-                                return true;
-                            }
-                        }
-
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+                        if (motionEvent.getX() < 0 || motionEvent.getX() > view.getWidth()) return true;
+                        if (motionEvent.getY() < 0 || motionEvent.getY() > view.getHeight()) return true;
 
                         return false;
                     }
                 });
             }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+
+                new DB_Interaction(VirdlerimApplication.getAppContext(),VirdlerimApplication.getDbHelper()).removeFromGunlukVird(actualVird);
+                buttonSPEditor.putBoolean("gunluk"+actualVird.getId(),false);
+                buttonSPEditor.commit();
+
+
+            }
         });
+
+        holder.likeButton.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+
+
+                List<Vird> favoriler=new DB_Interaction(context,VirdlerimApplication.getDbHelper()).fetchFavourites();
+
+                if ( new DB_Interaction(context,VirdlerimApplication.getDbHelper()).insertToFavourites(actualVird)) {
+                    Toast.makeText(context,"Favorilerinize Eklendi",Toast.LENGTH_LONG).show();
+                    buttonSPEditor.putBoolean("fav"+actualVird.getId(),true);
+                    buttonSPEditor.commit();
+                }
+                else {
+                    Toast.makeText(context,"Hata! Favorilere eklenemedi!",Toast.LENGTH_LONG).show();
+                }
+
+
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+
+                buttonSPEditor.putBoolean("fav"+actualVird.getId(),false);
+                buttonSPEditor.commit();
+                new DB_Interaction(context,VirdlerimApplication.getDbHelper()).removeFromFavourites(actualVird);
+                Toast.makeText(context,"Favorilerinizden Çıkartıldı!",Toast.LENGTH_LONG).show();
+            }
+        });
+
+
+
+
 
         //yazı veya resim üzerine tıklanıldığında layout anlamın tamamını gösterecek şekilde uzayacak
         final ArrayList<View> items=new ArrayList<>();
@@ -274,8 +281,8 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
                         ViewGroup.LayoutParams layoutParams = holder.txt_layout.getLayoutParams();
                         layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
                         holder.txt_layout.setLayoutParams(layoutParams);
-                        holder.cardLayout.setBackground(context.getResources().getDrawable(R.drawable.coloredborder_6));
-
+                        holder.cardLayout.setBackground(context.getResources().getDrawable(R.drawable.coloredborder_4));
+                        holder.txt_anlam.setMaxLines(1000);
                     }
 
                     else{
@@ -292,6 +299,7 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
                             layoutParams.height = (int) (100 * (context.getResources().getDisplayMetrics().density));
                             holder.txt_layout.setLayoutParams(layoutParams);
                             holder.cardLayout.setBackground(context.getResources().getDrawable(R.drawable.coloredborder_4));
+                            holder.txt_anlam.setMaxLines(2);
                             transition.setDuration(1000);
 
                         }
@@ -353,6 +361,10 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
         private ConstraintLayout card_cons_lay;
         private TextView txt_arabic_text;
         private ConstraintLayout sayiBelirleLAyout;
+        private LikeButton likeButton;
+        private Button deleteButton;
+        private LikeButton gunlukVirdButton;
+
 
 
         public CardViewObjectsHolder(View view){
@@ -366,12 +378,15 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
 
             oku_button=view.findViewById(R.id.button_ayetler_oku);
             cv_vird=view.findViewById(R.id.folder_cv_vird);
-            menu_button=view.findViewById(R.id.img_menubutton_ayetler);
+
 
             cardLayout=view.findViewById(R.id.folder_cv_top_linear);
             txt_layout=view.findViewById(R.id.linearLayout_text);
             card_cons_lay=view.findViewById(R.id.card_constraint_layout);
             txt_arabic_text=view.findViewById(R.id.txt_arabic_text);
+            likeButton=itemView.findViewById(R.id.likebutton);
+            gunlukVirdButton=itemView.findViewById(R.id.gunlukvirdbutton);
+            deleteButton=itemView.findViewById(R.id.deletebutton);
 
         }
 

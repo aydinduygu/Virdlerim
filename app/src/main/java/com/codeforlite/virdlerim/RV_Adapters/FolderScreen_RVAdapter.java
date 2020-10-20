@@ -2,12 +2,14 @@ package com.codeforlite.virdlerim.RV_Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -154,11 +156,21 @@ public class FolderScreen_RVAdapter extends RecyclerView.Adapter<FolderScreen_RV
 
         }
 
-        else if(actualFolder.getKind().equals("Ayetler")){holder.intent_to_nextScreen=new Intent(context, AyetGrubu_Screen.class);}
-        else if(actualFolder.getKind().equals("Dua")){holder.intent_to_nextScreen=new Intent(context, Dua_Screen.class);}
-        else if(actualFolder.getKind().equals("Salavat")){holder.intent_to_nextScreen=new Intent(context, Salavat_Screen.class);}
-        else if(actualFolder.getKind().equals("Vird")){holder.intent_to_nextScreen=new Intent(context, Favoriler_Screen.class);}
-        else if(actualFolder.getKind().equals("Tesbih")){holder.intent_to_nextScreen=new Intent(context, Tesbih_Screen.class);}
+        else if(actualFolder.getKind().equals("Ayetler")){
+            holder.folder_image.setImageDrawable(context.getDrawable(R.drawable.quran3));
+            holder.intent_to_nextScreen=new Intent(context, AyetGrubu_Screen.class);}
+        else if(actualFolder.getKind().equals("Dua")){
+            holder.folder_image.setImageDrawable(context.getDrawable(R.drawable.dua));
+            holder.intent_to_nextScreen=new Intent(context, Dua_Screen.class);}
+        else if(actualFolder.getKind().equals("Salavat")){
+            holder.folder_image.setImageDrawable(context.getDrawable(R.drawable.muhammed_sav2));
+            holder.intent_to_nextScreen=new Intent(context, Salavat_Screen.class);}
+        else if(actualFolder.getKind().equals("Vird")){
+            holder.folder_image.setImageDrawable(context.getDrawable(R.drawable.ic_heart_liked));
+            holder.intent_to_nextScreen=new Intent(context, Favoriler_Screen.class);}
+        else if(actualFolder.getKind().equals("Tesbih")){
+            holder.folder_image.setImageDrawable(context.getDrawable(R.drawable.tesbih_yeni));
+            holder.intent_to_nextScreen=new Intent(context, Tesbih_Screen.class);}
         else{
 
             Log.e("nullReference","Folder kind yok!");
@@ -195,6 +207,7 @@ public class FolderScreen_RVAdapter extends RecyclerView.Adapter<FolderScreen_RV
         private ArrayList<View> onclickItems;
         private ConstraintLayout constraintLayout;
         public Intent intent_to_nextScreen;
+        private ImageView folder_image;
 
 
         public VirdScreen_ViewHolder(@NonNull View itemView) {
@@ -208,6 +221,7 @@ public class FolderScreen_RVAdapter extends RecyclerView.Adapter<FolderScreen_RV
             onclickItems=new ArrayList<>();
             onclickItems.add(cardView);
             onclickItems.add(linearLayout);
+            folder_image=itemView.findViewById(R.id.folder_image);
 
 
 

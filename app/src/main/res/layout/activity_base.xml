@@ -16,6 +16,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
+            style="@style/CustomText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/primary_dark"
@@ -26,7 +27,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:menu="@menu/search_menu" />
+            app:menu="@menu/search_menu"
+            app:titleTextAppearance="@style/toolbartitle"
+            app:titleTextColor="@color/logo" />
 
         <TextView
             android:id="@+id/txt_toolbar_title"
@@ -50,6 +53,7 @@
             android:layout_height="0dp"
             android:background="@color/secondary_text"
             android:paddingLeft="15dp"
+            android:paddingTop="15dp"
             android:paddingRight="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -100,10 +104,10 @@
         android:background="@color/primary_dark"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/drawer_header"
-        app:itemIconTint="@color/accent"
-        app:itemTextColor="@color/accent"
         app:itemBackground="@drawable/one_side_bottom_border"
+        app:itemIconTint="@color/accent"
         app:itemTextAppearance="@style/menutext"
+        app:itemTextColor="@color/logo"
         app:menu="@menu/drawermenu">
 
     </com.google.android.material.navigation.NavigationView>

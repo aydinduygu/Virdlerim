@@ -61,9 +61,4 @@ public class Folder_Screen extends BaseActivity implements folderColorList_Inter
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        return false;
-    }
 }

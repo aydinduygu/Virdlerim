@@ -39,8 +39,9 @@ public class AyetGrubu_Screen extends BaseActivity implements SearchView.OnQuery
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        toolbar_title.setText("Ayet Grupları");
-        toolbar.setTitleMarginStart(170);
+        toolbar_title.setVisibility(View.GONE);
+        toolbar.setTitle("Ayet Grupları");
+
         ayetlercardList=new ArrayList<>();
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL));
@@ -86,6 +87,15 @@ public class AyetGrubu_Screen extends BaseActivity implements SearchView.OnQuery
                 });
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+
+
+        return super.onCreateOptionsMenu(menu);
+
     }
 
     @Override

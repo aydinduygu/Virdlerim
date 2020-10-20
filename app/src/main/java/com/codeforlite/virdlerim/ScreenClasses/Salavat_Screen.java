@@ -35,8 +35,8 @@ public class Salavat_Screen extends BaseActivity implements SearchView.OnQueryTe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        toolbar_title.setText("Salavat-ı Şerife");
-        toolbar.setTitleMarginStart(170);
+        toolbar_title.setVisibility(View.GONE);
+        toolbar.setTitle("Salavat-ı Şerife");
         salavatCardList=new ArrayList<>();
 
         recyclerView.setHasFixedSize(true);
