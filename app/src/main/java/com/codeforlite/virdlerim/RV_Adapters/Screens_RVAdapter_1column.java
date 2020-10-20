@@ -10,7 +10,6 @@ import android.os.Build;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
@@ -30,8 +29,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.codeforlite.virdlerim.DB_Interaction;
 import com.codeforlite.virdlerim.Oku;
-import com.codeforlite.virdlerim.Popup_Classes.Popup_DevamSorusu;
-import com.codeforlite.virdlerim.Popup_Classes.Popup_SayiBelirle;
+import com.codeforlite.virdlerim.Popup_Classes.AlertView_DevamSorusu;
+import com.codeforlite.virdlerim.Popup_Classes.AlertView_SayiBelirle;
 import com.codeforlite.virdlerim.R;
 import com.codeforlite.virdlerim.Vird_Classes.AyetGrubu;
 import com.codeforlite.virdlerim.Vird_Classes.Vird;
@@ -268,12 +267,12 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
                 if (!activityName.equals("GunlukVirdlerimScreen")) {
                     int kalansayi=  context.getSharedPreferences("kalansayilar",Context.MODE_PRIVATE).getInt(comingVird.getId(),0);
 
-                    if(kalansayi==0) {
+                    if (kalansayi == 0) {
 
-                        new Popup_SayiBelirle(context,comingVird,false);
+                        new AlertView_SayiBelirle(context, comingVird, false);
+                    } else {
+                        new AlertView_DevamSorusu(context, kalansayi, comingVird);
                     }
-
-                    else{new Popup_DevamSorusu(context,kalansayi,comingVird);}
                 }
                 else {
 
@@ -323,18 +322,9 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
             @Override
             public void liked(LikeButton likeButton) {
 
-                Popup_SayiBelirle sayiBelirle=new Popup_SayiBelirle(context,comingVird,true);
+                AlertView_SayiBelirle sayiBelirle = new AlertView_SayiBelirle(context, comingVird, true);
 
 
-                sayiBelirle.setTouchInterceptor(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent motionEvent) {
-                        if (motionEvent.getX() < 0 || motionEvent.getX() > view.getWidth()) return true;
-                        if (motionEvent.getY() < 0 || motionEvent.getY() > view.getHeight()) return true;
-
-                        return false;
-                    }
-                });
 
             }
 
@@ -564,9 +554,9 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
             button_oku=itemView.findViewById(R.id.button_ayetler_oku);
 
             ayetCard=itemView.findViewById(R.id.card_ayetler);
-            isClicked=false;
-            popupWindow_sayibelirle=new PopupWindow(LayoutInflater.from(context).inflate(R.layout.popup_sayi_belirle,null,false),600,700,true);
-            cardOuterLayout=itemView.findViewById(R.id.card_1column_linear_layout);
+            isClicked = false;
+            popupWindow_sayibelirle = new PopupWindow(LayoutInflater.from(context).inflate(R.layout.alertview_sayi_belirle, null, false), 600, 700, true);
+            cardOuterLayout = itemView.findViewById(R.id.card_1column_linear_layout);
             imageView=itemView.findViewById(R.id.img_card_1column);
             txt_hedefSayi=itemView.findViewById(R.id.txt_gunluk_hedef);
             txt_kalanSayi=itemView.findViewById(R.id.txt_gunluk_kalan);

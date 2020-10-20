@@ -1,32 +1,27 @@
 package com.codeforlite.virdlerim.Popup_Classes;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Parcelable;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.codeforlite.virdlerim.DB_Interaction;
-import com.codeforlite.virdlerim.Vird_Classes.Esma;
 import com.codeforlite.virdlerim.Oku;
 import com.codeforlite.virdlerim.R;
+import com.codeforlite.virdlerim.Vird_Classes.Esma;
 import com.codeforlite.virdlerim.Vird_Classes.Vird;
 import com.codeforlite.virdlerim.VirdlerimApplication;
 
 import java.io.Serializable;
-import java.util.List;
 
-public class Popup_SayiBelirle extends PopupWindow {
+public class AlertView_SayiBelirle extends AlertDialog.Builder {
 
     private Button btn_hedefSayiGir;
     private CheckBox checkBox_ebcedSayisi;
@@ -34,27 +29,28 @@ public class Popup_SayiBelirle extends PopupWindow {
     private Vird actualVird;
     private boolean isGunlukVird;
     public boolean isAddedToList;
+    private AlertDialog alertDialog;
+    private View dialogView;
 
 
-    public Popup_SayiBelirle(Context context, Vird comingVird,boolean is_GunlukVird) {
+    public AlertView_SayiBelirle(Context context, Vird comingVird, boolean is_GunlukVird) {
 
-        super(LayoutInflater.from(context).inflate(R.layout.popup_sayi_belirle,null,false),700,700,true);
+        super(context);
+        dialogView = ((Activity) context).getLayoutInflater().inflate(R.layout.alertview_sayi_belirle, null);
+        setView(dialogView);
+        alertDialog = create();
 
+        isAddedToList = false;
 
-        isAddedToList=false;
-        setAnimationStyle(R.style.animationforpopup);
-        showAtLocation(new LinearLayout(context), Gravity.CENTER,0,0);
-        editText_sayigir=getContentView().findViewById(R.id.editText_hedefsayi_gir);
-        checkBox_ebcedSayisi=getContentView().findViewById(R.id.checkBox_ebced);
-        btn_hedefSayiGir=getContentView().findViewById(R.id.btn_hedefsayi_gir);
-        this.actualVird=comingVird;
-        this.isGunlukVird=is_GunlukVird;
+        editText_sayigir = dialogView.findViewById(R.id.editText_hedefsayi_gir);
+        checkBox_ebcedSayisi = dialogView.findViewById(R.id.checkBox_ebced);
+        btn_hedefSayiGir = dialogView.findViewById(R.id.btn_hedefsayi_gir);
+        this.actualVird = comingVird;
+        this.isGunlukVird = is_GunlukVird;
 
-        if (!actualVird.getClass().getSimpleName().equals("Esma")){
+        if (!actualVird.getClass().getSimpleName().equals("Esma")) {
             checkBox_ebcedSayisi.setVisibility(View.GONE);
-        }
-
-        else {
+        } else {
             checkBox_ebcedSayisi.setVisibility(View.VISIBLE);
         }
 
@@ -108,7 +104,7 @@ public class Popup_SayiBelirle extends PopupWindow {
                             actualVird.setTargetNumber(sayi);
                             intent.putExtra("Vird.class", (Serializable) actualVird);
                             if (actualVird instanceof Esma){intent.putExtra("activityName","Esma_Screen");}
-                            dismiss();
+                            alertDialog.dismiss();
                             context.startActivity(intent);
                         }
                         else {
@@ -127,7 +123,7 @@ public class Popup_SayiBelirle extends PopupWindow {
                                     buttonSPEditor.commit();
 
 
-                                    dismiss();
+                                    alertDialog.dismiss();
 
 
                                 }
@@ -135,21 +131,19 @@ public class Popup_SayiBelirle extends PopupWindow {
 
                                 else {
 
-                                    Toast.makeText(VirdlerimApplication.getAppContext(),"Hata! Günlük virdlerinize eklenemedi",Toast.LENGTH_LONG).show();
-                                    dismiss();
+                                    Toast.makeText(VirdlerimApplication.getAppContext(), "Hata! Günlük virdlerinize eklenemedi", Toast.LENGTH_LONG).show();
+                                    alertDialog.dismiss();
 
                                 }
 
                         }
                     }
-                }
-
-                else {
-                    Toast.makeText(context,"Lütfen hedef sayı giriniz.",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(context, "Lütfen hedef sayı giriniz.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
+        alertDialog.show();
     }
     }
 

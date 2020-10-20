@@ -1,29 +1,22 @@
 package com.codeforlite.virdlerim.ScreenClasses;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import com.codeforlite.virdlerim.DB_Interaction;
-import com.codeforlite.virdlerim.Popup_Classes.Popup_SetTitle;
-import com.codeforlite.virdlerim.R;
+import com.codeforlite.virdlerim.Popup_Classes.AlertView_SetAyetGroupTitle;
 import com.codeforlite.virdlerim.RV_Adapters.Screens_RVAdapter_1column;
 import com.codeforlite.virdlerim.Vird_Classes.AyetGrubu;
 import com.codeforlite.virdlerim.Vird_Classes.Vird;
 import com.codeforlite.virdlerim.VirdlerimApplication;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,19 +58,19 @@ public class AyetGrubu_Screen extends BaseActivity implements SearchView.OnQuery
             @Override
             public void onClick(View v) {
 
-                Popup_SetTitle popup_setTitle=new Popup_SetTitle(AyetGrubu_Screen.this);
+                AlertView_SetAyetGroupTitle alertView_setAyetGroupTitle = new AlertView_SetAyetGroupTitle(AyetGrubu_Screen.this);
 
-                popup_setTitle.getButton_setTitle().setOnClickListener(new View.OnClickListener() {
+                alertView_setAyetGroupTitle.getButton_setTitle().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        String title=popup_setTitle.getEditText_Title().getText().toString();
+                        String title = alertView_setAyetGroupTitle.getEditText_Title().getText().toString();
 
-                        if(!title.isEmpty()){
+                        if (!title.isEmpty()) {
 
-                            Intent intent=new Intent(getApplicationContext(), Add_AyetGroup_Screen.class);
-                            intent.putExtra("title",title);
+                            Intent intent = new Intent(getApplicationContext(), Add_AyetGroup_Screen.class);
+                            intent.putExtra("title", title);
                             startActivity(intent);
-                            popup_setTitle.dismiss();
+                            alertView_setAyetGroupTitle.getAlertDialog().dismiss();
 
                         }
                         else{

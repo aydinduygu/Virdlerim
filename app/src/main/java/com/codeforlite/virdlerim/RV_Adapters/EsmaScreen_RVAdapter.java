@@ -8,8 +8,6 @@ import android.text.TextUtils;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -22,17 +20,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codeforlite.virdlerim.DB_Interaction;
-import com.codeforlite.virdlerim.Popup_Classes.PopupMenu_Card;
-import com.codeforlite.virdlerim.Vird_Classes.Esma;
-import com.codeforlite.virdlerim.Popup_Classes.Popup_DevamSorusu;
-import com.codeforlite.virdlerim.Popup_Classes.Popup_SayiBelirle;
+import com.codeforlite.virdlerim.Popup_Classes.AlertView_DevamSorusu;
+import com.codeforlite.virdlerim.Popup_Classes.AlertView_SayiBelirle;
 import com.codeforlite.virdlerim.R;
+import com.codeforlite.virdlerim.Vird_Classes.Esma;
 import com.codeforlite.virdlerim.Vird_Classes.Vird;
 import com.codeforlite.virdlerim.VirdlerimApplication;
 import com.like.LikeButton;
@@ -175,12 +171,12 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
 
               int kalansayi=  context.getSharedPreferences("kalansayilar",Context.MODE_PRIVATE).getInt(actualVird.getId(),0);
 
-                if(kalansayi==0) {
+                if (kalansayi == 0) {
 
-                    new Popup_SayiBelirle(context,actualVird,false);
+                    new AlertView_SayiBelirle(context, actualVird, false);
+                } else {
+                    new AlertView_DevamSorusu(context, kalansayi, actualVird);
                 }
-
-                else{new Popup_DevamSorusu(context,kalansayi,actualVird);}
             }
         });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -197,17 +193,9 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
             @Override
             public void liked(LikeButton likeButton) {
 
-               Popup_SayiBelirle sayiBelirle= new Popup_SayiBelirle(context,actualVird,true);
+                AlertView_SayiBelirle sayiBelirle = new AlertView_SayiBelirle(context, actualVird, true);
 
-                sayiBelirle.setTouchInterceptor(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View view, MotionEvent motionEvent) {
-                        if (motionEvent.getX() < 0 || motionEvent.getX() > view.getWidth()) return true;
-                        if (motionEvent.getY() < 0 || motionEvent.getY() > view.getHeight()) return true;
 
-                        return false;
-                    }
-                });
             }
 
             @Override
