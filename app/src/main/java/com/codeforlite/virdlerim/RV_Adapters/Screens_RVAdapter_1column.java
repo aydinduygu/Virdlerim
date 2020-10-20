@@ -1,52 +1,39 @@
 package com.codeforlite.virdlerim.RV_Adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.icu.util.Calendar;
-import android.media.Image;
-import android.net.Uri;
 import android.os.Build;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codeforlite.virdlerim.DB_Interaction;
 import com.codeforlite.virdlerim.Oku;
-import com.codeforlite.virdlerim.Popup_Classes.PopupMenu_Card;
-import com.codeforlite.virdlerim.Popup_Classes.Popup_Card_GunlukVird;
-import com.codeforlite.virdlerim.Vird_Classes.AyetGrubu;
 import com.codeforlite.virdlerim.Popup_Classes.Popup_DevamSorusu;
 import com.codeforlite.virdlerim.Popup_Classes.Popup_SayiBelirle;
 import com.codeforlite.virdlerim.R;
+import com.codeforlite.virdlerim.Vird_Classes.AyetGrubu;
 import com.codeforlite.virdlerim.Vird_Classes.Vird;
 import com.codeforlite.virdlerim.VirdlerimApplication;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -57,15 +44,11 @@ import com.like.LikeButton;
 import com.like.OnLikeListener;
 
 import java.io.Serializable;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
-import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAdapter_1column.Screens_ViewHolder> implements Filterable,Serializable {
 
@@ -194,14 +177,16 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
             int day=calendar.get(Calendar.DAY_OF_YEAR);
             int savedDay=gunlukVirdKayit.getInt("day",day+1);
 
-            //save actual day on device
-            editor.putInt("day",day);
-            editor.commit();
 
+            //eğer kayıtlı gün hazır gün ile uyuşmuyorsa kalan vird sayısını default değere dönüştür
+            if (day!=savedDay) {
 
-            if (day!=savedDay){
+                editor.putInt("gunlukhedefkalan_" + comingVird.getId(), comingVird.getGunlukHedef());
+                editor.commit();
 
-                editor.putInt("gunlukhedefkalan_"+comingVird.getId(),comingVird.getGunlukHedef());
+                //save actual day on device
+                editor.putInt("day", day);
+                editor.commit();
             }
 
             int gunlukVirdKalan=gunlukVirdKayit.getInt("gunlukhedefkalan_"+comingVird.getId(),0);
