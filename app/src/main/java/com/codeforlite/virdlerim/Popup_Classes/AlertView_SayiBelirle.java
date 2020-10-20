@@ -38,6 +38,7 @@ public class AlertView_SayiBelirle extends AlertDialog.Builder {
         super(context);
         dialogView = ((Activity) context).getLayoutInflater().inflate(R.layout.alertview_sayi_belirle, null);
         setView(dialogView);
+
         alertDialog = create();
 
         isAddedToList = false;
@@ -143,6 +144,8 @@ public class AlertView_SayiBelirle extends AlertDialog.Builder {
                 }
             }
         });
+
+        alertDialog.getWindow().setBackgroundDrawableResource(R.drawable.coloredborder_7);
         alertDialog.show();
     }
     }

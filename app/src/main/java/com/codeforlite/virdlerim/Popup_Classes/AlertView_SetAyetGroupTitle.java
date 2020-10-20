@@ -20,12 +20,14 @@ public class AlertView_SetAyetGroupTitle extends AlertDialog.Builder {
     public AlertView_SetAyetGroupTitle(Context context) {
         super(context);
 
-        dialogView = ((Activity) context).getLayoutInflater().inflate(R.layout.popup_set_ayetgrouptitle, null);
+        dialogView = ((Activity) context).getLayoutInflater().inflate(R.layout.alertview_set_ayetgrouptitle, null);
         setView(dialogView);
         alertDialog = create();
 
         editText_Title = dialogView.findViewById(R.id.editText_title);
         button_setTitle = dialogView.findViewById(R.id.button_setTitle);
+
+        alertDialog.getWindow().setBackgroundDrawableResource(R.drawable.coloredborder_7);
 
         alertDialog.show();
     }

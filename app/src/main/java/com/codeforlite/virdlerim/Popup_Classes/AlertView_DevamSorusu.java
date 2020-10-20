@@ -31,7 +31,7 @@ public class AlertView_DevamSorusu extends AlertDialog.Builder {
 
         super(context);
 
-        dialogView = ((Activity) context).getLayoutInflater().inflate(R.layout.popup_devamsorusu, null);
+        dialogView = ((Activity) context).getLayoutInflater().inflate(R.layout.alertview_devamsorusu, null);
         setView(dialogView);
         alertDialog = create();
 
@@ -78,6 +78,7 @@ public class AlertView_DevamSorusu extends AlertDialog.Builder {
             }
         });
 
+        alertDialog.getWindow().setBackgroundDrawableResource(R.drawable.coloredborder_7);
         alertDialog.show();
 
     }
