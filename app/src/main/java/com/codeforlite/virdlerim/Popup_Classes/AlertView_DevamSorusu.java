@@ -146,4 +146,5 @@ public class AlertView_DevamSorusu extends AlertDialog.Builder {
     public void setDialogView(View dialogView) {
         this.dialogView = dialogView;
     }
+
 }

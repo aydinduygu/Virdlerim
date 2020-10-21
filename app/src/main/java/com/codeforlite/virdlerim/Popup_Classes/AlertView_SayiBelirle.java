@@ -31,6 +31,7 @@ public class AlertView_SayiBelirle extends AlertDialog.Builder {
     public boolean isAddedToList;
     private AlertDialog alertDialog;
     private View dialogView;
+    private boolean isGunlukHedefSet;
 
 
     public AlertView_SayiBelirle(Context context, Vird comingVird, boolean is_GunlukVird) {
@@ -49,13 +50,15 @@ public class AlertView_SayiBelirle extends AlertDialog.Builder {
         this.actualVird = comingVird;
         this.isGunlukVird = is_GunlukVird;
 
+        isGunlukHedefSet = false;
+
         if (!actualVird.getClass().getSimpleName().equals("Esma")) {
             checkBox_ebcedSayisi.setVisibility(View.GONE);
         } else {
             checkBox_ebcedSayisi.setVisibility(View.VISIBLE);
         }
 
-        if(isGunlukVird){
+        if (isGunlukVird) {
 
             editText_sayigir.setHint("Günlük Hedef");
             btn_hedefSayiGir.setText("Tamam");
@@ -73,6 +76,7 @@ public class AlertView_SayiBelirle extends AlertDialog.Builder {
                 }
             }
         });
+
 
         btn_hedefSayiGir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +116,7 @@ public class AlertView_SayiBelirle extends AlertDialog.Builder {
 
                                 actualVird.setGunlukHedef(sayi);
                                 if ((new DB_Interaction(context, VirdlerimApplication.getDbHelper()).insertToGunlukVird(actualVird))){
-
+                                    isGunlukHedefSet = true;
                                     SharedPreferences sharedPreferences=context.getSharedPreferences("gunlukvirdler",Context.MODE_PRIVATE);
                                     SharedPreferences.Editor editor=sharedPreferences.edit();
                                     editor.putInt("gunlukhedefkalan_"+actualVird.getId(),actualVird.getGunlukHedef());
@@ -145,8 +149,81 @@ public class AlertView_SayiBelirle extends AlertDialog.Builder {
             }
         });
 
+
         alertDialog.getWindow().setBackgroundDrawableResource(R.drawable.coloredborder_7);
         alertDialog.show();
     }
+
+    public Button getBtn_hedefSayiGir() {
+        return btn_hedefSayiGir;
     }
+
+    public void setBtn_hedefSayiGir(Button btn_hedefSayiGir) {
+        this.btn_hedefSayiGir = btn_hedefSayiGir;
+    }
+
+    public CheckBox getCheckBox_ebcedSayisi() {
+        return checkBox_ebcedSayisi;
+    }
+
+    public void setCheckBox_ebcedSayisi(CheckBox checkBox_ebcedSayisi) {
+        this.checkBox_ebcedSayisi = checkBox_ebcedSayisi;
+    }
+
+    public EditText getEditText_sayigir() {
+        return editText_sayigir;
+    }
+
+    public void setEditText_sayigir(EditText editText_sayigir) {
+        this.editText_sayigir = editText_sayigir;
+    }
+
+    public Vird getActualVird() {
+        return actualVird;
+    }
+
+    public void setActualVird(Vird actualVird) {
+        this.actualVird = actualVird;
+    }
+
+    public boolean isGunlukVird() {
+        return isGunlukVird;
+    }
+
+    public void setGunlukVird(boolean gunlukVird) {
+        isGunlukVird = gunlukVird;
+    }
+
+    public boolean isAddedToList() {
+        return isAddedToList;
+    }
+
+    public void setAddedToList(boolean addedToList) {
+        isAddedToList = addedToList;
+    }
+
+    public AlertDialog getAlertDialog() {
+        return alertDialog;
+    }
+
+    public void setAlertDialog(AlertDialog alertDialog) {
+        this.alertDialog = alertDialog;
+    }
+
+    public View getDialogView() {
+        return dialogView;
+    }
+
+    public void setDialogView(View dialogView) {
+        this.dialogView = dialogView;
+    }
+
+    public boolean isGunlukHedefSet() {
+        return isGunlukHedefSet;
+    }
+
+    public void setGunlukHedefSet(boolean gunlukHedefSet) {
+        isGunlukHedefSet = gunlukHedefSet;
+    }
+}
 

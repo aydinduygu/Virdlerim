@@ -1,6 +1,7 @@
 package com.codeforlite.virdlerim.RV_Adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -324,8 +325,15 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
 
                 AlertView_SayiBelirle sayiBelirle = new AlertView_SayiBelirle(context, comingVird, true);
 
-
-
+                //eğer günlük hedef girilmeden alert view dismiss olmuşsa liked durumunu geri al
+                sayiBelirle.getAlertDialog().setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        if (!sayiBelirle.isGunlukHedefSet()) {
+                            holder.gunlukVirdButton.setLiked(false);
+                        }
+                    }
+                });
             }
 
             @Override
