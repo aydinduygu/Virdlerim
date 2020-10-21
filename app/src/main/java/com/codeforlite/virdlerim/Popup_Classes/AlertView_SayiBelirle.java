@@ -21,6 +21,8 @@ import com.codeforlite.virdlerim.VirdlerimApplication;
 
 import java.io.Serializable;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 public class AlertView_SayiBelirle extends AlertDialog.Builder {
 
     private Button btn_hedefSayiGir;
@@ -151,7 +153,9 @@ public class AlertView_SayiBelirle extends AlertDialog.Builder {
 
 
         alertDialog.getWindow().setBackgroundDrawableResource(R.drawable.coloredborder_7);
+
         alertDialog.show();
+        alertDialog.getWindow().setLayout(750, WRAP_CONTENT);
     }
 
     public Button getBtn_hedefSayiGir() {

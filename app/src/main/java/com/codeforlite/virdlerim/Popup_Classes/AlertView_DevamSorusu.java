@@ -15,6 +15,8 @@ import com.codeforlite.virdlerim.Vird_Classes.Vird;
 
 import java.io.Serializable;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 public class AlertView_DevamSorusu extends AlertDialog.Builder {
 
     private TextView textView;
@@ -80,6 +82,7 @@ public class AlertView_DevamSorusu extends AlertDialog.Builder {
 
         alertDialog.getWindow().setBackgroundDrawableResource(R.drawable.coloredborder_7);
         alertDialog.show();
+        alertDialog.getWindow().setLayout(750, WRAP_CONTENT);
 
     }
 

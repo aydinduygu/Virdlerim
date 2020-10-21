@@ -269,7 +269,6 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
                     int kalansayi=  context.getSharedPreferences("kalansayilar",Context.MODE_PRIVATE).getInt(comingVird.getId(),0);
 
                     if (kalansayi == 0) {
-
                         new AlertView_SayiBelirle(context, comingVird, false);
                     } else {
                         new AlertView_DevamSorusu(context, kalansayi, comingVird);

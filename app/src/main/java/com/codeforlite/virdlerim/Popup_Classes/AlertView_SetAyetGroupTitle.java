@@ -9,6 +9,8 @@ import android.widget.EditText;
 import com.codeforlite.virdlerim.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 public class AlertView_SetAyetGroupTitle extends AlertDialog.Builder {
 
     private EditText editText_Title;
@@ -30,6 +32,8 @@ public class AlertView_SetAyetGroupTitle extends AlertDialog.Builder {
         alertDialog.getWindow().setBackgroundDrawableResource(R.drawable.coloredborder_7);
 
         alertDialog.show();
+
+        alertDialog.getWindow().setLayout(WRAP_CONTENT, WRAP_CONTENT);
     }
 
     public void setEditText_Title(EditText editText_Title) {
