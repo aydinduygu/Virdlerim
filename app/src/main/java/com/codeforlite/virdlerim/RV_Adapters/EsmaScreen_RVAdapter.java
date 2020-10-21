@@ -31,6 +31,8 @@ import com.codeforlite.virdlerim.R;
 import com.codeforlite.virdlerim.Vird_Classes.Esma;
 import com.codeforlite.virdlerim.Vird_Classes.Vird;
 import com.codeforlite.virdlerim.VirdlerimApplication;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
@@ -182,11 +184,29 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DB_Interaction(context, VirdlerimApplication.getDbHelper()).removeData(actualVird);
-                esmaList.remove(actualVird);
-                notifyDataSetChanged();
+
+                Snackbar snackbar = Snackbar.make(holder.cardLayout, "Bu virdi silmek istiyor musunuz?", BaseTransientBottomBar.LENGTH_LONG).setAction("Evet", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new DB_Interaction(context, VirdlerimApplication.getDbHelper()).removeData(actualVird);
+                        esmaList.remove(actualVird);
+                        notifyDataSetChanged();
+
+                        Snackbar snackbar2 = Snackbar.make(v, "Virdiniz silindi.", Snackbar.LENGTH_LONG);
+                        snackbar2.setTextColor(context.getResources().getColor(R.color.accent));
+
+                    }
+                });
+
+                snackbar.setTextColor(context.getResources().getColor(R.color.accent));
+                View view = snackbar.getView();
+                view.setPadding(0, 10, 0, 10);
+                snackbar.show();
+
 
             }
+
+
         });
 
         holder.gunlukVirdButton.setOnLikeListener(new OnLikeListener() {
