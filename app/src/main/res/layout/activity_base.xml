@@ -72,7 +72,7 @@
             android:elevation="2dp"
             android:text="TextView"
             android:textAlignment="center"
-            android:textColor="@color/accent"
+            android:textColor="@color/logo"
             android:textSize="20sp"
             android:textStyle="italic"
             android:visibility="gone"

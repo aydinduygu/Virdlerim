@@ -296,11 +296,18 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
               Snackbar snackbar=  Snackbar.make(holder.cardOuterLayout,"Bu virdi silmek istiyor musunuz?", BaseTransientBottomBar.LENGTH_LONG).setAction("Evet", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        new DB_Interaction(context, VirdlerimApplication.getDbHelper()).removeData(comingVird);
+                        DB_Interaction db_interaction = new DB_Interaction(context, VirdlerimApplication.getDbHelper());
+                        db_interaction.removeData(comingVird);
+
+                        if (activityName.equals("GunlukVirdlerimScreen")) {
+                            db_interaction.removeFromGunlukVird(comingVird);
+                        } else if (activityName.equals("Favoriler_Screen")) {
+                            db_interaction.removeFromFavourites(comingVird);
+                        }
                         comingList.remove(comingVird);
                         notifyDataSetChanged();
 
-                        Snackbar snackbar2=Snackbar.make(v,"Virdiniz silindi.",Snackbar.LENGTH_LONG);
+                        Snackbar snackbar2 = Snackbar.make(v, "Virdiniz silindi.", Snackbar.LENGTH_LONG);
                         snackbar2.setTextColor(context.getResources().getColor(R.color.accent));
 
                     }

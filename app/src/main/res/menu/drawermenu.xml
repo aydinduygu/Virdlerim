@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <item
@@ -29,7 +27,7 @@
         android:title="Esmaül Hüsna" />
     <item
         android:id="@+id/action_drawer_tesbih"
-        android:icon="@drawable/islam"
+        android:icon="@drawable/tesbih_yeni"
         android:title="Tesbihler" />
     <item
         android:id="@+id/action_drawer_dua"
