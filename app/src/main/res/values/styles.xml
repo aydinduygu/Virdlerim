@@ -14,11 +14,28 @@
 
     <!-- ToolBar -->
     <style name="ToolBarStyle" parent="Theme.AppCompat">
-        <item name="android:textColorPrimary">@color/logo</item>
+        <item name="android:textColorPrimary">@color/accent</item>
         <item name="fontFamily">@font/trartistik</item>
         <item name="android:textColorSecondary">@android:color/white</item>
         <item name="actionMenuTextColor">@android:color/white</item>
 
+    </style>
+
+    <style name="Theme.Custom" parent="@style/Theme.AppCompat">
+        <item name="windowActionBar">false</item>
+        <item name="windowActionBarOverlay">true</item>
+        <item name="android:windowActionBarOverlay">true</item>
+    </style>
+
+    <style name="CustomViewAllTab" parent="Widget.Design.TabLayout">
+
+        <item name="fontFamily">@font/trartistik</item>
+    </style>
+
+    <style name="CustomActionBar" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:windowActionBarOverlay">true</item>
+        <!-- Support library compatibility -->
+        <item name="windowActionBarOverlay">true</item>
     </style>
 
 
@@ -30,13 +47,11 @@
         <item name="android:thumbTextPadding">10dp</item>
     </style>
 
-    <style name="CustomAlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:windowBackground">@drawable/coloredborder_7</item>
-    </style>
+
 
     <style name="toolbartitle" parent="@style/Base.TextAppearance.AppCompat.Title">
         <item name="android:textSize">23sp</item>
-        <item name="android:textColor">@color/logo</item>
+        <item name="android:textColor">@color/accent</item>
         <item name="fontFamily">@font/trartistik</item>
         <item name="android:drawablePadding">20dp</item>
         <item name="android:thumbTextPadding">10dp</item>
@@ -52,7 +67,7 @@
     <style name="Widget.BottomNavigationView"
         parent="Widget.Design.BottomNavigationView">
         <item name="fontFamily">@font/expletus_sans</item>
-        <item name="android:textColor">@color/logo</item>
+        <item name="android:textColor">@color/accent</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">15sp</item>
     </style>
@@ -74,8 +89,13 @@
         <item name="cornerSizeBottomRight">18dp</item>
     </style>
 
-
-
+    <style name="salah_spinner_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginBottom">20dp</item>
+        <item name="android:layout_weight">0.7</item>
+        <item name="android:orientation">vertical</item>
+    </style>
 
 
 </resources>

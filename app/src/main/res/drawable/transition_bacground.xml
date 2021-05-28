@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transition
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
+    >
+
+    <item>
+
+        <shape
+
+            > <solid android:color="@color/background"></solid></shape>
+
+    </item>
+
+    <item>
+
+        <shape
+
+            > <solid android:color="@color/primary_light"></solid></shape>
+
+    </item>
+
+
+</transition>

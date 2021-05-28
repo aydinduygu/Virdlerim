@@ -9,8 +9,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codeforlite.virdlerim.ModelClasses.Vird_Classes.Ayet;
 import com.codeforlite.virdlerim.R;
-import com.codeforlite.virdlerim.Vird_Classes.Ayet;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;

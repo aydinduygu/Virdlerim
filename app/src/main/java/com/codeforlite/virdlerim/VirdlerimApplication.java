@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
+import com.codeforlite.virdlerim.DB_Classes.DBHelper;
+
 public class VirdlerimApplication extends Application {
 
     private static Context context;

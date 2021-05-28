@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item
+        android:id="@+id/action_drawer_nmz"
+        android:icon="@drawable/mosque_2"
+        android:title="Namaz Vakitleri" />
+    <item
+
+        android:id="@+id/action_gunlukvirdlerim"
+        android:icon="@drawable/ic_calendar_ok"
+        android:title="Günlük Virdlerim"
+
+        />
+    <item
+        android:id="@+id/action_drawer_favoriler"
+        android:icon="@drawable/ic_heart_liked"
+        android:title="Favoriler" />
+    <item
+        android:id="@+id/action_drawer_ayetgrupları"
+        android:icon="@drawable/foldericon_quran2"
+        android:title="Ayet Grupları" />
+    <item
+        android:id="@+id/action_drawer_salavat"
+        android:icon="@drawable/foldericon_muhammed_sav"
+        android:title="Salavat-ı Şerife" />
+    <item
+        android:id="@+id/action_drawer_esma"
+        android:icon="@drawable/foldericon_allah_text"
+        android:title="Esmaül Hüsna" />
+    <item
+        android:id="@+id/action_drawer_tesbih"
+        android:icon="@drawable/tesbih_yeni"
+        android:title="Tesbihler" />
+    <item
+        android:id="@+id/action_drawer_dua"
+        android:icon="@drawable/foldericon_dua"
+        android:title="Dualar" />
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_settings_icon"
+        android:title="Ayarlar" />
+    <item
+        android:id="@+id/action_close"
+        android:icon="@drawable/ic_baseline_exit_to_app_24"
+        android:title="Çıkış" />
+</menu>

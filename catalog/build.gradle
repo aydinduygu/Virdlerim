@@ -112,9 +112,7 @@ android {
         res.srcDirs += 'java/io/material/catalog/' + it + '/res'
       }
     }
-    //TODO(b/141695010)
-    // androidTest.java.srcDir 'androidTest/javatests'
-    // test.java.srcDir 'test/javatests'
+
   }
 
   compileOptions {

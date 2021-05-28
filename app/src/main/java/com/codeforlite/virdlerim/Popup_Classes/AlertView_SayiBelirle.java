@@ -12,11 +12,11 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.codeforlite.virdlerim.DB_Interaction;
-import com.codeforlite.virdlerim.Oku;
+import com.codeforlite.virdlerim.Activity_Read;
+import com.codeforlite.virdlerim.DB_Classes.DB_Interaction;
+import com.codeforlite.virdlerim.ModelClasses.Vird_Classes.Esma;
+import com.codeforlite.virdlerim.ModelClasses.Vird_Classes.Vird;
 import com.codeforlite.virdlerim.R;
-import com.codeforlite.virdlerim.Vird_Classes.Esma;
-import com.codeforlite.virdlerim.Vird_Classes.Vird;
 import com.codeforlite.virdlerim.VirdlerimApplication;
 
 import java.io.Serializable;
@@ -39,7 +39,7 @@ public class AlertView_SayiBelirle extends AlertDialog.Builder {
     public AlertView_SayiBelirle(Context context, Vird comingVird, boolean is_GunlukVird) {
 
         super(context);
-        dialogView = ((Activity) context).getLayoutInflater().inflate(R.layout.alertview_sayi_belirle, null);
+        dialogView = ((Activity) context).getLayoutInflater().inflate(R.layout.alertview_selectnumber, null);
         setView(dialogView);
 
         alertDialog = create();
@@ -83,7 +83,7 @@ public class AlertView_SayiBelirle extends AlertDialog.Builder {
         btn_hedefSayiGir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, Oku.class);
+                Intent intent=new Intent(context, Activity_Read.class);
                 intent.putExtra("activityName","");
                 String editTextContent=editText_sayigir.getText().toString();
 
@@ -152,7 +152,7 @@ public class AlertView_SayiBelirle extends AlertDialog.Builder {
         });
 
 
-        alertDialog.getWindow().setBackgroundDrawableResource(R.drawable.coloredborder_7);
+        alertDialog.getWindow().setBackgroundDrawableResource(R.drawable.four_corner_radius10);
 
         alertDialog.show();
         alertDialog.getWindow().setLayout(750, WRAP_CONTENT);

@@ -15,6 +15,7 @@
         android:id="@+id/search"
         android:icon="@drawable/ic_baseline_search_36"
         android:title="Item"
+        android:visibility="gone"
         app:actionViewClass="androidx.appcompat.widget.SearchView"
         app:showAsAction="always" />
 </menu>

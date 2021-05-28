@@ -13,8 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.Button;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,84 +21,33 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.codeforlite.virdlerim.DB_Interaction;
+import com.codeforlite.virdlerim.DB_Classes.DB_Interaction;
+import com.codeforlite.virdlerim.ModelClasses.Vird_Classes.Vird;
 import com.codeforlite.virdlerim.Popup_Classes.AlertView_DevamSorusu;
 import com.codeforlite.virdlerim.Popup_Classes.AlertView_SayiBelirle;
 import com.codeforlite.virdlerim.R;
-import com.codeforlite.virdlerim.Vird_Classes.Esma;
-import com.codeforlite.virdlerim.Vird_Classes.Vird;
 import com.codeforlite.virdlerim.VirdlerimApplication;
-import com.google.android.material.snackbar.BaseTransientBottomBar;
-import com.google.android.material.snackbar.Snackbar;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdapter.CardViewObjectsHolder> implements Filterable, Serializable {
+public class EsmaScreen_RVAdapter extends MyRVAdapter {
 
     private Context context;
-    private List<Vird> esmaList;
-    private List<Vird> virdListAll;
     private CardViewObjectsHolder oldHolder;
     private ArrayList<CardViewObjectsHolder> allCards;
 
-    public EsmaScreen_RVAdapter(Context context, ArrayList<Vird> esmaList) {
+    public EsmaScreen_RVAdapter(Context context, List<Vird> esmaList) {
         this.context = context;
-        this.esmaList = esmaList;
+        this.comingList = esmaList;
         this.virdListAll=new ArrayList<>(esmaList);
         allCards=new ArrayList<>();
 
     }
 
-    //esmalar arasında filtremele yapmak için:
-    @Override
-    public Filter getFilter() {
-        return filter;
-    }
-
-    Filter filter=new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-
-            List<Vird> filteredList=new ArrayList<>();
-
-            if(constraint.toString().isEmpty()){
-                filteredList.clear();
-                esmaList.clear();
-                filteredList.addAll(virdListAll);
-            }
-
-            else{
-                filteredList.clear();
-                esmaList.clear();
-                for(Vird vird:virdListAll){
-                        if (vird.getImageName().toLowerCase().contains(constraint.toString().toLowerCase())||vird.getTurkishText().toLowerCase().contains(constraint.toString().toLowerCase())){
-
-                            filteredList.add(vird);
-                        }
-                }
-            }
-
-            FilterResults filterResults=new FilterResults();
-            filterResults.values=filteredList;
-            return filterResults;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-
-            esmaList.clear();
-            esmaList.addAll((Collection<? extends Esma>) results.values);
-            notifyDataSetChanged();
-
-        }
-    };
 
     @NonNull
     @Override
@@ -112,9 +59,11 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final CardViewObjectsHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
 
-        final Vird actualVird= esmaList.get(position);
+        CardViewObjectsHolder holder=(CardViewObjectsHolder)myViewHolder;
+
+        final Vird actualVird= comingList.get(position);
 
         //fav ve günlük vird buttonlarının durumlarını al ona göre ayarla
         SharedPreferences buttonSP=context.getSharedPreferences("likeButtons",Context.MODE_PRIVATE);
@@ -182,33 +131,7 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
                 }
             }
         });
-        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Snackbar snackbar = Snackbar.make(holder.cardLayout, "Bu virdi silmek istiyor musunuz?", BaseTransientBottomBar.LENGTH_LONG).setAction("Evet", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        new DB_Interaction(context, VirdlerimApplication.getDbHelper()).removeData(actualVird);
-                        esmaList.remove(actualVird);
-                        notifyDataSetChanged();
-
-                        Snackbar snackbar2 = Snackbar.make(v, "Virdiniz silindi.", Snackbar.LENGTH_LONG);
-                        snackbar2.setTextColor(context.getResources().getColor(R.color.accent));
-
-                    }
-                });
-
-                snackbar.setTextColor(context.getResources().getColor(R.color.accent));
-                View view = snackbar.getView();
-                view.setPadding(0, 10, 0, 10);
-                snackbar.show();
-
-
-            }
-
-
-        });
 
         holder.gunlukVirdButton.setOnLikeListener(new OnLikeListener() {
             @Override
@@ -299,7 +222,7 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
                         ViewGroup.LayoutParams layoutParams = holder.txt_layout.getLayoutParams();
                         layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
                         holder.txt_layout.setLayoutParams(layoutParams);
-                        holder.cardLayout.setBackground(context.getResources().getDrawable(R.drawable.coloredborder_4));
+                        holder.cardLayout.setBackground(context.getResources().getDrawable(R.drawable.coloredborder_green));
                         holder.txt_anlam.setMaxLines(1000);
                     }
 
@@ -316,7 +239,7 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
                             ViewGroup.LayoutParams layoutParams = holder.txt_layout.getLayoutParams();
                             layoutParams.height = (int) (100 * (context.getResources().getDisplayMetrics().density));
                             holder.txt_layout.setLayoutParams(layoutParams);
-                            holder.cardLayout.setBackground(context.getResources().getDrawable(R.drawable.coloredborder_4));
+                            holder.cardLayout.setBackground(context.getResources().getDrawable(R.drawable.coloredborder_green));
                             holder.txt_anlam.setMaxLines(2);
                             transition.setDuration(1000);
 
@@ -335,7 +258,7 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
                             oldHolder.txt_layout.setLayoutParams(layoutParams);
 
 
-                            oldHolder.cardLayout.setBackground(context.getResources().getDrawable(R.drawable.coloredborder_7));
+                            oldHolder.cardLayout.setBackground(context.getResources().getDrawable(R.drawable.coloredborder_green));
 
                             oldHolder = holder;
                             holder.isClicked = true;
@@ -346,7 +269,7 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
                             layoutParams = holder.txt_layout.getLayoutParams();
                             layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
                             holder.txt_layout.setLayoutParams(layoutParams);
-                            holder.cardLayout.setBackground(context.getResources().getDrawable(R.drawable.coloredborder_3));
+                            holder.cardLayout.setBackground(context.getResources().getDrawable(R.drawable.coloredborder_green));
 
                         }
                     }
@@ -357,12 +280,12 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
 
     @Override
     public int getItemCount() {
-        return esmaList.size();
+        return comingList.size();
     }
 
 
     //inner class olarak holder clası düzenliyoruz, card üzerindeki view ler burada tanımlanır
-    public class CardViewObjectsHolder extends RecyclerView.ViewHolder {
+    public class CardViewObjectsHolder extends MyViewHolder {
 
         private boolean isClicked;
         private ImageView arabic_text_image;
@@ -380,7 +303,6 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
         private TextView txt_arabic_text;
         private ConstraintLayout sayiBelirleLAyout;
         private LikeButton likeButton;
-        private Button deleteButton;
         private LikeButton gunlukVirdButton;
 
 
@@ -404,13 +326,12 @@ public class EsmaScreen_RVAdapter extends RecyclerView.Adapter<EsmaScreen_RVAdap
             txt_arabic_text=view.findViewById(R.id.txt_arabic_text);
             likeButton=itemView.findViewById(R.id.likebutton);
             gunlukVirdButton=itemView.findViewById(R.id.gunlukvirdbutton);
-            deleteButton=itemView.findViewById(R.id.deletebutton);
 
         }
 
 
     }
-
+//TODO Çerçeve rengi değişecek
 
 
 }

@@ -10,10 +10,18 @@ android {
         applicationId "com.codeforlite.virdlerim"
         minSdkVersion 24
         targetSdkVersion 29
-        versionCode 1
+        versionCode 2
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [
+                        "androidManifestFile": "$projectDir/src/main/AndroidManifest.xml".toString()
+                ]
+            }
+        }
     }
 
     buildTypes {
@@ -30,10 +38,39 @@ android {
         includeInApk false
         includeInBundle false
     }
+
+    lintOptions {
+        checkReleaseBuilds false // Add this
+        abortOnError false
+    }
 }
+configurations{
+    all*.exclude module: 'okhttp'
+    all*.exclude module: 'okio'
+}
+
+
+
+
 
 dependencies {
 
+    implementation 'androidx.gridlayout:gridlayout:1.0.0'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0-alpha1"
+
+    def room_version = "2.3.0"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+
+    implementation 'android.arch.persistence.room:runtime:1.1.1'
+    annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
+    // optional - Test helpers
+    implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
+    implementation 'org.jsoup:jsoup:1.13.1'
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.2.0'
     //noinspection GradleCompatible,GradleCompatible
@@ -49,14 +86,7 @@ dependencies {
     implementation 'androidx.drawerlayout:drawerlayout:1.1.1'
     implementation 'com.google.firebase:firebase-database:19.4.0'
     implementation 'androidx.preference:preference:1.1.1'
-    implementation files('libs\\byte-buddy-1.8.15.jar')
-    implementation files('libs\\client-combined-3.141.59.jar')
-    implementation files('libs\\commons-exec-1.3.jar')
-    implementation files('libs\\guava-25.0-jre.jar')
-    implementation files('libs\\okhttp-3.11.0.jar')
-    implementation files('libs\\okio-1.14.0.jar')
-    implementation files('libs\\client-combined-3.141.59-sources.jar')
-    implementation files('libs\\client-combined-3.141.59.jar')
+
     implementation 'com.google.firebase:firebase-messaging:20.2.4'
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -65,6 +95,17 @@ dependencies {
     releaseImplementation 'com.idescout.sql:sqlscout-server-noop:4.1'
     implementation 'com.mikhaellopez:circularfillableloaders:1.2.0'
     implementation 'jp.wasabeef:blurry:3.0.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
     implementation 'com.jsibbold:zoomage:1.3.1'
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
+    implementation "com.squareup.retrofit2:retrofit:2.9.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.9.0"
+    implementation "com.scwang.wave:MultiWaveHeader:1.0.0-alpha-1"
+    implementation 'com.google.android.material:material:1.3.0'
+    implementation 'com.google.android.flexbox:flexbox:3.0.0'
+    implementation 'com.jakewharton:butterknife:7.0.1'
+    implementation 'com.github.florent37:singledateandtimepicker:2.2.7'
+
+
 }

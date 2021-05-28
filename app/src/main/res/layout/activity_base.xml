@@ -13,86 +13,55 @@
         android:layout_height="match_parent"
         tools:context=".MainScreen">
 
+        <com.scwang.wave.MultiWaveHeader
+            android:id="@+id/wave_header"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:elevation="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:mwhCloseColor="#264653"
+            app:mwhColorAlpha="0.7"
+            app:mwhGradientAngle="90"
+            app:mwhIsRunning="true"
+            app:mwhProgress="1"
+            app:mwhStartColor="#264653"
+            app:mwhVelocity="6"
+
+            app:mwhWaves="MultiWave" />
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             style="@style/CustomText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/primary_dark"
+            android:background="@drawable/transparent_bg"
+            android:elevation="30dp"
             android:minHeight="?attr/actionBarSize"
             android:paddingRight="10dp"
-            android:theme="?attr/actionBarTheme"
+            android:textAlignment="viewStart"
+            android:theme="@style/CustomActionBar"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:menu="@menu/search_menu"
             app:titleTextAppearance="@style/toolbartitle"
-            app:titleTextColor="@color/logo" />
+            app:titleTextColor="@color/accent" />
 
-        <TextView
-            android:id="@+id/txt_toolbar_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="2dp"
-            android:fontFamily="@font/trartistik"
-            android:text="Virdlerim"
-            android:textAlignment="center"
-            android:textColor="@color/accent"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/toolbar"
-            app:layout_constraintLeft_toLeftOf="@id/toolbar"
-            app:layout_constraintRight_toRightOf="@id/toolbar"
-            app:layout_constraintTop_toTopOf="@id/toolbar" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyleView_virdScreen"
-            android:layout_width="match_parent"
+        <FrameLayout
+            android:id="@+id/base_container"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/secondary_text"
-            android:paddingLeft="15dp"
-            android:paddingTop="15dp"
-            android:paddingRight="10dp"
+            android:foregroundGravity="center"
+            android:paddingTop="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" >
+            app:layout_constraintTop_toTopOf="parent">
 
-
-        </androidx.recyclerview.widget.RecyclerView>
-
-        <TextView
-
-            android:id="@+id/txt_rv_information"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:elevation="2dp"
-            android:text="TextView"
-            android:textAlignment="center"
-            android:textColor="@color/logo"
-            android:textSize="20sp"
-            android:textStyle="italic"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/button_add_vird"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="30dp"
-            android:layout_marginBottom="30dp"
-            android:clickable="true"
-            android:tint="#FFFFFF"
-            app:layout_constraintBottom_toBottomOf="@+id/recyleView_virdScreen"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_baseline_add_24" />
-
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -101,14 +70,14 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="left"
-        android:background="@color/primary_dark"
+        android:background="@color/background"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/drawer_header"
         app:itemBackground="@drawable/one_side_bottom_border"
         app:itemIconTint="@color/accent"
         app:itemTextAppearance="@style/menutext"
-        app:itemTextColor="@color/logo"
-        app:menu="@menu/drawermenu">
+        app:itemTextColor="@android:color/primary_text_light"
+        app:menu="@menu/menu_drawer">
 
     </com.google.android.material.navigation.NavigationView>
 

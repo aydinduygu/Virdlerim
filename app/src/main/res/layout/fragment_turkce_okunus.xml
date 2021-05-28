@@ -23,7 +23,7 @@
             android:gravity="center"
             android:inputType="textMultiLine"
             android:text="Türkçe Okunuşu"
-            android:textColor="#1A237E"
+            android:textColor="@color/primary_text"
             android:textSize="24sp" />
     </LinearLayout>
 </ScrollView>

@@ -9,9 +9,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.codeforlite.virdlerim.Oku;
+import com.codeforlite.virdlerim.Activity_Read;
+import com.codeforlite.virdlerim.ModelClasses.Vird_Classes.Vird;
 import com.codeforlite.virdlerim.R;
-import com.codeforlite.virdlerim.Vird_Classes.Vird;
 
 import java.io.Serializable;
 
@@ -33,7 +33,7 @@ public class AlertView_DevamSorusu extends AlertDialog.Builder {
 
         super(context);
 
-        dialogView = ((Activity) context).getLayoutInflater().inflate(R.layout.alertview_devamsorusu, null);
+        dialogView = ((Activity) context).getLayoutInflater().inflate(R.layout.alertview_continuetoread, null);
         setView(dialogView);
         alertDialog = create();
 
@@ -58,7 +58,7 @@ public class AlertView_DevamSorusu extends AlertDialog.Builder {
                     case R.id.rb_devamsorusu_evet:{
 
                         actualVird.setTargetNumber(kalansayi);
-                        Intent intent =new Intent(context, Oku.class);
+                        Intent intent =new Intent(context, Activity_Read.class);
                         intent.putExtra("Vird.class", (Serializable) actualVird);
                         intent.putExtra("activityName","");
                         context.startActivity(intent);
@@ -80,7 +80,7 @@ public class AlertView_DevamSorusu extends AlertDialog.Builder {
             }
         });
 
-        alertDialog.getWindow().setBackgroundDrawableResource(R.drawable.coloredborder_7);
+        alertDialog.getWindow().setBackgroundDrawableResource(R.drawable.coloredborder_mix);
         alertDialog.show();
         alertDialog.getWindow().setLayout(750, WRAP_CONTENT);
 

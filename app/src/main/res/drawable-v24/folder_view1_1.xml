@@ -4,15 +4,14 @@
     <gradient
         android:type="linear"
         android:angle="0"
-        android:startColor="#ffc200"
-        android:endColor="#fca10b" />
+        android:endColor="#ee9b00"
+        android:startColor="#ca6702" />
 
     <padding
-        android:top="17dp"
-        android:left="17dp"
+        android:bottom="10dp"
+        android:left="10dp"
         android:right="10dp"
-        android:bottom="10dp"    >
-    </padding>
+        android:top="10dp"></padding>
 
 
 </shape>

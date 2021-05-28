@@ -19,7 +19,7 @@
         app:cfl_border_width="4dp"
         app:cfl_progress="70"
         app:cfl_wave_amplitude="0.06"
-        app:cfl_wave_color="#FFAB40"
+        app:cfl_wave_color="@color/accent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +31,7 @@
         android:layout_marginTop="50dp"
         android:fontFamily="@font/trartistik"
         android:text="Virdlerim"
-        android:textColor="#FFAB40"
+        android:textColor="@color/accent"
         android:textSize="70sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"

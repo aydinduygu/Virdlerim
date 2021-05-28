@@ -16,8 +16,6 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.Button;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -26,15 +24,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.codeforlite.virdlerim.DB_Interaction;
-import com.codeforlite.virdlerim.Oku;
+import com.codeforlite.virdlerim.Activity_Read;
+import com.codeforlite.virdlerim.DB_Classes.DB_Interaction;
+import com.codeforlite.virdlerim.ModelClasses.Vird_Classes.AyetGrubu;
+import com.codeforlite.virdlerim.ModelClasses.Vird_Classes.Vird;
 import com.codeforlite.virdlerim.Popup_Classes.AlertView_DevamSorusu;
 import com.codeforlite.virdlerim.Popup_Classes.AlertView_SayiBelirle;
 import com.codeforlite.virdlerim.R;
-import com.codeforlite.virdlerim.Vird_Classes.AyetGrubu;
-import com.codeforlite.virdlerim.Vird_Classes.Vird;
 import com.codeforlite.virdlerim.VirdlerimApplication;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.shape.CornerFamily;
@@ -45,16 +42,14 @@ import com.like.OnLikeListener;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
-public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAdapter_1column.Screens_ViewHolder> implements Filterable,Serializable {
+public class Screens_RVAdapter_1column extends MyRVAdapter implements Serializable{
 
     public Context context;
-    private List< Vird> comingList;
-    private List virdListAll;
+
     AutoTransition transition;
     String activityName;
 
@@ -70,62 +65,7 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
 
     }
 
-    @Override
-    public Filter getFilter() {
-        return filter;
-    }
 
-    Filter filter=new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-
-            List<Vird> filteredList=new ArrayList<>();
-
-            if(constraint.toString().isEmpty()){
-                filteredList.clear();
-                comingList.clear();
-                filteredList.addAll(virdListAll);
-            }
-
-            else{
-                filteredList.clear();
-                for(int i=0;i<comingList.size();i++){
-
-                    String c=constraint.toString().toLowerCase();
-                    String meal="";
-
-
-                    if (comingList.get(i) instanceof AyetGrubu){
-                        meal=((AyetGrubu)comingList.get(i)).getMeal();
-                    }
-
-                    Vird vird=comingList.get(i);
-
-                    if (  ((vird.getImageName()!=null) && vird.getImageName().toLowerCase().contains(c))||
-                          ((vird.getTurkishText()!=null) &&  vird.getTurkishText().toLowerCase().contains(c))||
-                          ((vird.getTitle()!=null) && vird.getTitle().toLowerCase().contains(c))||
-                          ((vird.getMealormeaning()!=null) && vird.getMealormeaning().toLowerCase().contains(c))||
-                            meal.toLowerCase().contains(c)){
-
-                        filteredList.add(vird);
-                    }
-                }
-            }
-
-            FilterResults filterResults=new FilterResults();
-            filterResults.values=filteredList;
-            return filterResults;
-        }
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-
-            comingList.clear();
-            comingList.addAll((Collection <? extends Vird>) results.values);
-            notifyDataSetChanged();
-
-        }
-    };
 
 
     @NonNull
@@ -138,8 +78,10 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
 
 
     @Override
-    public void onBindViewHolder(@NonNull Screens_ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int position) {
 
+        Screens_ViewHolder holder=(Screens_ViewHolder)myViewHolder;
+        holder.deleteButton.setVisibility(View.VISIBLE);
         holder.setIsRecyclable(false);
 
         final Vird  comingVird = comingList.get(position);
@@ -161,7 +103,13 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
            comingVird.setMealormeaning(ayetGrubu.getMeal());
         }
 
+        if (activityName.equals("Favoriler_Screen")){
+            holder.deleteButton.setVisibility(View.GONE);
+        }
+
         if (activityName.equals("GunlukVirdlerimScreen")){
+
+            holder.deleteButton.setVisibility(View.GONE);
 
             //set visibility for numbers layout and devider
             holder.numbersLayout.setVisibility(View.VISIBLE);
@@ -278,7 +226,7 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
 
                     int sayi=context.getSharedPreferences("gunlukvirdler",Context.MODE_PRIVATE).getInt("gunlukhedefkalan_"+comingVird.getId(),0);
                     comingVird.setTargetNumber(sayi);
-                    Intent intent=new Intent(context, Oku.class);
+                    Intent intent=new Intent(context, Activity_Read.class);
                     intent.putExtra("Vird.class", (Serializable) comingVird);
                     intent.putExtra("activityName",activityName);
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -507,30 +455,30 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
         String className=comingVird.getClass().getSimpleName();
         if (className.equals("AyetGrubu")){
 
-            holder.cardOuterLayout.setBackground(context.getDrawable(R.drawable.coloredborder_3));
+            holder.cardOuterLayout.setBackground(context.getDrawable(R.drawable.coloredborder_red));
         }
 
         else if(className.equals("Tesbih")){
 
-            holder.cardOuterLayout.setBackground(context.getDrawable(R.drawable.coloredborder_1));
+            holder.cardOuterLayout.setBackground(context.getDrawable(R.drawable.coloredborder_yellow));
         }
         else if(className.equals("Dua")){
 
-            holder.cardOuterLayout.setBackground(context.getDrawable(R.drawable.coloredborder_5));
+            holder.cardOuterLayout.setBackground(context.getDrawable(R.drawable.coloredborder_purple));
         }
         else if(className.equals("Salavat")){
 
-            holder.cardOuterLayout.setBackground(context.getDrawable(R.drawable.coloredborder_2));
+            holder.cardOuterLayout.setBackground(context.getDrawable(R.drawable.coloredborder_blue));
         }
         else if (className.equals("Esma")){
 
-            holder.cardOuterLayout.setBackground(context.getDrawable(R.drawable.coloredborder_4_thick));
+            holder.cardOuterLayout.setBackground(context.getDrawable(R.drawable.coloredborder_green));
         }
 
     }
 
 
-    class Screens_ViewHolder extends RecyclerView.ViewHolder{
+    class Screens_ViewHolder extends MyViewHolder{
 
         private TextView editText_title;
         private TextView editText_arabic;
@@ -569,7 +517,7 @@ public class Screens_RVAdapter_1column extends RecyclerView.Adapter<Screens_RVAd
 
             ayetCard=itemView.findViewById(R.id.card_ayetler);
             isClicked = false;
-            popupWindow_sayibelirle = new PopupWindow(LayoutInflater.from(context).inflate(R.layout.alertview_sayi_belirle, null, false), 600, 700, true);
+            popupWindow_sayibelirle = new PopupWindow(LayoutInflater.from(context).inflate(R.layout.alertview_selectnumber, null, false), 600, 700, true);
             cardOuterLayout = itemView.findViewById(R.id.card_1column_linear_layout);
             imageView=itemView.findViewById(R.id.img_card_1column);
             txt_hedefSayi=itemView.findViewById(R.id.txt_gunluk_hedef);

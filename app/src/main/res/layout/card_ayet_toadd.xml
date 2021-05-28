@@ -6,10 +6,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_marginTop="-10dp"
-
     android:layout_height="wrap_content"
-    android:background="@drawable/folder_view3_3">
+
+    android:layout_marginTop="-10dp"
+    android:background="@drawable/folder_view3_3"
+    android:paddingLeft="10dp"
+    android:paddingTop="15dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="10dp">
 
     <androidx.cardview.widget.CardView
 
@@ -18,8 +22,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        android:background="@drawable/four_corner_radius_white"
-        android:padding="30dp"
+        android:background="@drawable/four_corner_radius10"
+        android:padding="20dp"
         app:cardCornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -29,7 +33,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/four_corner_radius_white"
+            android:background="@drawable/four_corner_radius10"
             android:padding="10dp">
 
             <LinearLayout
@@ -78,9 +82,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:paddingLeft="10dp"
                     android:text="TextView"
                     android:textAlignment="textEnd"
-                    android:textColor="#6200EA"
+                    android:textColor="@color/accent2"
                     android:textSize="24sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/button_card_removefromlist"

@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
         android:left="-10dp"
         android:right="-10dp"
-        android:top="-10dp">
+        android:top="-10dp"
+
+        >
+
         <shape>
 
 
@@ -12,13 +15,14 @@
                 android:top="30dp"
                 android:left="17dp"
                 android:right="10dp"
-                android:bottom="30dp"    >
-            </padding>
+                android:bottom="30dp"></padding>
 
 
             <stroke
                 android:width="2dp"
-                android:color="#22FFB300" />
+                android:color="@color/divider"></stroke>
+
+
         </shape>
     </item>
 

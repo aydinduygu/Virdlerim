@@ -4,20 +4,16 @@ import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.os.IBinder;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.JobIntentService;
 import androidx.core.app.NotificationCompat;
 
+import com.codeforlite.virdlerim.Fragments.Pages.Fragment_DailyPrayers_Page;
 import com.codeforlite.virdlerim.R;
-import com.codeforlite.virdlerim.ScreenClasses.GunlukVirdlerimScreen;
 
 public class AlarmService extends JobIntentService {
 
@@ -38,7 +34,7 @@ public class AlarmService extends JobIntentService {
         NotificationManager notificationManager=(NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder=null;
 
-        Intent intent=new Intent(context, GunlukVirdlerimScreen.class);
+        Intent intent=new Intent(context, Fragment_DailyPrayers_Page.class);
 
         PendingIntent pendingIntent=PendingIntent.getActivity(context,1,intent,0);
 
