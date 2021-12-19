@@ -11,9 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Entity
 public class City {
 
@@ -30,6 +28,49 @@ public class City {
 
 
     private String parentCountryID;
+
+    public City() {
+    }
+
+    public City(@NonNull String cityID, String cityName, String cityNameEn, String parentCountryID) {
+        this.cityID = cityID;
+        this.cityName = cityName;
+        this.cityNameEn = cityNameEn;
+        this.parentCountryID = parentCountryID;
+    }
+
+    @NonNull
+    public String getCityID() {
+        return cityID;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public String getCityNameEn() {
+        return cityNameEn;
+    }
+
+    public String getParentCountryID() {
+        return parentCountryID;
+    }
+
+    public void setCityID(@NonNull String cityID) {
+        this.cityID = cityID;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    public void setCityNameEn(String cityNameEn) {
+        this.cityNameEn = cityNameEn;
+    }
+
+    public void setParentCountryID(String parentCountryID) {
+        this.parentCountryID = parentCountryID;
+    }
 
     @Override
     public String toString() {

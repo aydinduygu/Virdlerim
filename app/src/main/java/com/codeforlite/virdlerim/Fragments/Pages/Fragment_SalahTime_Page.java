@@ -36,6 +36,9 @@ import org.jsoup.nodes.Element;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -112,23 +115,23 @@ public class Fragment_SalahTime_Page extends Fragment {
         if(salahList!=null) {
 
 
-            SimpleDateFormat format=new SimpleDateFormat("HH:mm");
-            String time=format.format(salahList.get(0).getSalahDateTime());
+            DateTimeFormatter formatter=DateTimeFormatter.ofPattern("HH:mm");
+
             txt_kalan.setTextSize(60);
 
             txt_imsak.setText("İmsak"
-                    + ": " + time);
+                    + ": " + salahList.get(0).getSalahDateTime().format(formatter));
 
             txt_gunes.setText("Güneş"
-                    + ": " + time);
+                    + ": " + salahList.get(1).getSalahDateTime().format(formatter));
             txt_ogle.setText("Öğle"
-                    + ": " +  time);
+                    + ": " +  salahList.get(2).getSalahDateTime().format(formatter));
             txt_ikindi.setText("İkindi"
-                    + ": " + time);
+                    + ": " + salahList.get(3).getSalahDateTime().format(formatter));
             txt_aksam.setText("Akşam"
-                    + ": " + time);
+                    + ": " + salahList.get(4).getSalahDateTime().format(formatter));
             txt_yatsi.setText("Yatsı"
-                    + ": " + time);
+                    + ": " + salahList.get(5).getSalahDateTime().format(formatter));
             txt_kalansure.setVisibility(View.VISIBLE);
 
 
@@ -364,7 +367,7 @@ public class Fragment_SalahTime_Page extends Fragment {
                 ArrayAdapter adapter=
                         new ArrayAdapter(
                                 getActivity(),
-                                R.layout.support_simple_spinner_dropdown_item,
+                                android.R.layout.simple_spinner_dropdown_item,
                                 allCountries);
 
                 spn_country.setAdapter(adapter);
@@ -427,7 +430,7 @@ public class Fragment_SalahTime_Page extends Fragment {
                 ArrayAdapter adapter2=
                         new ArrayAdapter(
                                 getActivity(),
-                                R.layout.support_simple_spinner_dropdown_item,
+                                android.R.layout.simple_spinner_dropdown_item,
                                 countryWithCities.getCities());
 
 
@@ -448,7 +451,7 @@ public class Fragment_SalahTime_Page extends Fragment {
                         ArrayAdapter arrayAdapter =
                                 new ArrayAdapter(
                                     getActivity(),
-                                    R.layout.support_simple_spinner_dropdown_item,
+                                    android.R.layout.simple_spinner_dropdown_item,
                                             city.getDistricts());
 
                         spn_district.setAdapter(arrayAdapter);
@@ -517,72 +520,74 @@ public class Fragment_SalahTime_Page extends Fragment {
                 String nextFecrTime=str.substring(str.length()-7,str.length()-2);
 
                 String times=element.getElementsByClass("tpt-time").text();
-                String salahTimes[]=times.split(" ");
+                String salahTimesString[]=times.split(" ");
+                List<LocalDateTime> salahDateTimes=new ArrayList<>();
+                DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd-MM-yyyy");
+                DateTimeFormatter formatter1=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+                String date=LocalDate.now().format(formatter);
+
+
+                for (String salahTime : salahTimesString) {
+
+                    String dateTime=date+" "+salahTime;
+                    LocalDateTime localDateTime = LocalDateTime.parse(dateTime, formatter1);
+                    salahDateTimes.add(localDateTime);
+
+                }
+
+                salahDateTimes.add(LocalDateTime.parse(date+" "+nextFecrTime,formatter1).plusDays(1));
 
                 dailySalahs = new ArrayList<>();
 
-                Date date=new Date();
 
                 dailySalahs.add(new Salah(
                         "İmsak",
                         strings[2],
                         strings[3],
                         strings[1],
-                        date,
-                        salahTimes[0]));
+                        salahDateTimes.get(0)));
 
                 dailySalahs.add(new Salah(
                         "Güneş",
                         strings[2],
                         strings[3],
                         strings[1],
-                        date,
-                        salahTimes[1]));
+                        salahDateTimes.get(1)));
 
                 dailySalahs.add(new Salah(
                         "Öğle",
                         strings[2],
                         strings[3],
                         strings[1],
-                        date,
-                        salahTimes[2]));
+                        salahDateTimes.get(2)));
 
                 dailySalahs.add(new Salah(
                         "İkindi",
                         strings[2],
                         strings[3],
                         strings[1],
-                        date,
-                        salahTimes[3]));
+                        salahDateTimes.get(3)));
 
                 dailySalahs.add(new Salah(
                         "Akşam",
                         strings[2],
                         strings[3],
                         strings[1],
-                        date,
-                        salahTimes[4]));
+                        salahDateTimes.get(4)));
 
                 dailySalahs.add(new Salah(
                         "Yatsı",
                         strings[2],
                         strings[3],
                         strings[1],
-                        date,
-                        salahTimes[5]));
-
-                Calendar c=Calendar.getInstance();
-                c.setTime(date);
-                c.add(Calendar.DATE,1);
-                Date tomorrow=c.getTime();
+                        salahDateTimes.get(5)));
 
                 dailySalahs.add(new Salah(
                         "İmsak",
                         strings[2],
                         strings[3],
                         strings[1],
-                        tomorrow,
-                        nextFecrTime
+                        salahDateTimes.get(6)
                         ));
             } catch (IOException e) {
                 e.printStackTrace();

@@ -12,12 +12,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-
-
 public class CityWithDistricts {
 
     @Embedded
@@ -31,6 +25,30 @@ public class CityWithDistricts {
 
     )
     private List<District> districts;
+
+    public CityWithDistricts() {
+    }
+
+    public CityWithDistricts(City city, List<District> districts) {
+        this.city = city;
+        this.districts = districts;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public List<District> getDistricts() {
+        return districts;
+    }
+
+    public void setDistricts(List<District> districts) {
+        this.districts = districts;
+    }
 
     @Override
     public String toString() {

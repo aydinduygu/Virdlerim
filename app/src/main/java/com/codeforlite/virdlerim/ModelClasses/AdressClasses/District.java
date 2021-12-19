@@ -11,9 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Entity
 public class District {
 
@@ -31,6 +29,49 @@ public class District {
 
     private String parentCityID;
 
+
+    public District() {
+    }
+
+    public District(@NonNull String districtID, String districtName, String districtNameEn, String parentCityID) {
+        this.districtID = districtID;
+        this.districtName = districtName;
+        this.districtNameEn = districtNameEn;
+        this.parentCityID = parentCityID;
+    }
+
+    @NonNull
+    public String getDistrictID() {
+        return districtID;
+    }
+
+    public void setDistrictID(@NonNull String districtID) {
+        this.districtID = districtID;
+    }
+
+    public String getDistrictName() {
+        return districtName;
+    }
+
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
+    }
+
+    public String getDistrictNameEn() {
+        return districtNameEn;
+    }
+
+    public void setDistrictNameEn(String districtNameEn) {
+        this.districtNameEn = districtNameEn;
+    }
+
+    public String getParentCityID() {
+        return parentCityID;
+    }
+
+    public void setParentCityID(String parentCityID) {
+        this.parentCityID = parentCityID;
+    }
 
     @Override
     public String toString() {

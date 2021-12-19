@@ -10,10 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 
 public class CountryWithCities {
 
@@ -29,5 +25,27 @@ public class CountryWithCities {
 
     private List<CityWithDistricts> cities;
 
+    public CountryWithCities() {
+    }
 
+    public CountryWithCities(Country country, List<CityWithDistricts> cities) {
+        this.country = country;
+        this.cities = cities;
+    }
+
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
+    public List<CityWithDistricts> getCities() {
+        return cities;
+    }
+
+    public void setCities(List<CityWithDistricts> cities) {
+        this.cities = cities;
+    }
 }
