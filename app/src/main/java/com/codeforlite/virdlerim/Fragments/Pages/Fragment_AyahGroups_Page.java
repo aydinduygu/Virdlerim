@@ -46,6 +46,9 @@ public class Fragment_AyahGroups_Page extends Fragment_VirdBase {
 
         }
         adapter=new Screens_RVAdapter_1column(getActivity(),virdList,"AyetGrubu_Screen");
+        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setDrawingCacheEnabled(true);
+        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         recyclerView.setAdapter(adapter);
 
         button_addVird.setOnClickListener(new View.OnClickListener() {

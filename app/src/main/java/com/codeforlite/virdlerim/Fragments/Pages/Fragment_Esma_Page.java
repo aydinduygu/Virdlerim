@@ -29,7 +29,9 @@ public class Fragment_Esma_Page extends Fragment_VirdBase implements Serializabl
 
         virdList= (ArrayList<Vird>) new DB_Interaction(getActivity().getApplicationContext(), VirdlerimApplication.getDbHelper()).fetch_All("esma");
         adapter=new EsmaScreen_RVAdapter(getActivity(),virdList);
-
+        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setDrawingCacheEnabled(true);
+        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setAdapter(adapter);
 

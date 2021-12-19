@@ -39,7 +39,9 @@ public class Fragment_DailyPrayers_Page extends Fragment_VirdBase {
         }
 
         adapter=new Screens_RVAdapter_1column(getActivity().getApplicationContext(),virdList,"GunlukVirdlerimScreen");
-
+        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setDrawingCacheEnabled(true);
+        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL));
 

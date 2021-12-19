@@ -40,7 +40,9 @@ public class Fragment_Tesbih_Page extends Fragment_VirdBase {
                 virdList.add((Tesbih) tesbih);
             }
         }
-
+        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setDrawingCacheEnabled(true);
+        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         adapter=new Screens_RVAdapter_1column(getActivity(),virdList,"Tesbih_Screen");
         recyclerView.setAdapter(adapter);
         addVirdIntent.putExtra("class","Tesbih");

@@ -42,6 +42,9 @@ public class Fragment_Dua_Page extends Fragment_VirdBase {
         addVirdIntent.putExtra("class","Dua");
 
         adapter=new Screens_RVAdapter_1column(getActivity(),virdList,"Dua_Screen");
+        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setDrawingCacheEnabled(true);
+        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         recyclerView.setAdapter(adapter);
 
 

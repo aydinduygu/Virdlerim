@@ -33,7 +33,9 @@ public class Fragment_FavouritePrayers_Page extends Fragment_VirdBase {
 
         adapter=new Screens_RVAdapter_1column(getActivity(),virdList,"Favoriler_Screen");
         recyclerView.setAdapter(adapter);
-
+        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setDrawingCacheEnabled(true);
+        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         button_addVird.setVisibility(View.GONE);
 
         return view;

@@ -39,7 +39,9 @@ public class Fragment_Salavat_Page extends Fragment_VirdBase {
                 virdList.add((Salavat) salavat);
             }
         }
-
+        recyclerView.setItemViewCacheSize(20);
+        recyclerView.setDrawingCacheEnabled(true);
+        recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
         adapter=new Screens_RVAdapter_1column(getActivity(),virdList,"Salavat_Screen");
         recyclerView.setAdapter(adapter);
         addVirdIntent.putExtra("class","Salavat");
